@@ -1,0 +1,8 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define NBODY_VERSION_MAJOR @nbody_VERSION_MAJOR@
+#define NBODY_VERSION_MINOR @nbody_VERSION_MINOR@
+
+#endif // CONFIG_H
+
