@@ -1,4 +1,5 @@
 #include "taskqueue.h"
+#include <pthread.h>
 #include <stdlib.h>
 
 void task_init(struct task *t, void (*func)(void *), void *func_args)
@@ -20,7 +21,7 @@ int taskqueue_init(struct taskqueue *q)
   err = pthread_mutex_init(&q->lock, NULL);
   if (err) { return err; }
 
-  err = pthread_cond_init(&q->work_ready, NULL);
+  err = pthread_cond_init(&q->notify, NULL);
   if (err) { return err; }
 
   return 0;
@@ -94,17 +95,38 @@ struct task *taskqueue_wait_for_work(struct taskqueue *q)
   pthread_mutex_lock(&q->lock);
 
   while (q->count == 0) {
-    pthread_cond_wait(&q->work_ready, &q->lock);
+    pthread_cond_wait(&q->notify, &q->lock);
   }
   if ((ret = taskqueue_pop_locked(q)) == NULL) {
-    // Error condition
+    // NOTE: This is an error condition.
+    // We will simply return NULL in this case.
+  } else {
+    q->num_running += 1;
   }
   pthread_mutex_unlock(&q->lock);
   return ret;
 }
 
-int taskqueue_work_ready(struct taskqueue *q)
+void taskqueue_wait_for_complete(struct taskqueue *q)
 {
-  return pthread_cond_broadcast(&q->work_ready);
+  pthread_mutex_lock(&q->lock);
+
+  while (!(q->count == 0 && q->num_running == 0)) {
+    pthread_cond_wait(&q->notify, &q->lock);
+  }
+
+  pthread_mutex_unlock(&q->lock);
 }
 
+int taskqueue_notify(struct taskqueue *q)
+{
+  return pthread_cond_broadcast(&q->notify);
+}
+
+void taskqueue_task_complete(struct taskqueue *q)
+{
+  pthread_mutex_lock(&q->lock);
+  q->num_running -= 1;
+  pthread_mutex_unlock(&q->lock);
+  taskqueue_notify(q);
+}

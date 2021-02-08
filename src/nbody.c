@@ -173,6 +173,8 @@ void *nbody_thread_func(void *arg)
     // Return objects to pool
     pool_release(&taskarg_p, my_task->func_args);
     pool_release(&task_p, my_task);
+
+    taskqueue_task_complete(&task_q);
   }
   return (void *)0;
 }
@@ -204,6 +206,27 @@ void generate_tasks_from_func(size_t num_tasks, void (*task_func)(void *))
 #define NUMACCELTASKS 200
 #define NUMADVTASKS 3
 
+void run_iteration()
+{
+  printf("Updating positions...\n");
+  generate_tasks_from_func(NUMADVTASKS, nbody_update_pos);
+  taskqueue_notify(&task_q);
+  taskqueue_wait_for_complete(&task_q);
+
+  printf("Building tree...\n");
+  build_tree();
+
+  printf("Computing forces ...\n");
+  generate_tasks_from_func(NUMACCELTASKS, nbody_compute_accel_bh);
+  taskqueue_notify(&task_q);
+  taskqueue_wait_for_complete(&task_q);
+
+  printf("Updating velocities...\n");
+  generate_tasks_from_func(NUMADVTASKS, nbody_update_vel);
+  taskqueue_notify(&task_q);
+  taskqueue_wait_for_complete(&task_q);
+}
+
 int main(int argc, char *argv[])
 {
   printf("nbody-solver version %d.%d\n", NBODY_VERSION_MAJOR,
@@ -217,7 +240,7 @@ int main(int argc, char *argv[])
   for (size_t i = 0; i < NUMTHREADS; ++i) {
     int err = pthread_create(&tids[i], NULL, nbody_thread_func, NULL);
     if (err != 0) {
-      printf("Cannot create thread %d\n", i);
+      printf("Cannot create thread %lu\n", i);
       exit(EXIT_FAILURE);
     }
   }
@@ -227,34 +250,7 @@ int main(int argc, char *argv[])
   for (int i = 0; i < 10; ++i) {
     printf("Iteration #%d\n", i);
 
-    int count;
-
-    printf("Updating positions...\n");
-    generate_tasks_from_func(NUMADVTASKS, nbody_update_pos);
-    taskqueue_work_ready(&task_q);
-    while ((count = taskqueue_count(&task_q)) != 0) {
-      // printf("Remaining tasks: %d\n", count);
-      // sleep(1);
-    }
-
-    printf("Building tree...\n");
-    build_tree();
-
-    printf("Computing forces ...\n");
-    generate_tasks_from_func(NUMACCELTASKS, nbody_compute_accel_bh);
-    taskqueue_work_ready(&task_q);
-    while ((count = taskqueue_count(&task_q)) != 0) {
-      // printf("Remaining tasks: %d\n", count);
-      // sleep(1);
-    }
-
-    printf("Updating velocities...\n");
-    generate_tasks_from_func(NUMADVTASKS, nbody_update_vel);
-    taskqueue_work_ready(&task_q);
-    while ((count = taskqueue_count(&task_q)) != 0) {
-      // printf("Remaining tasks: %d\n", count);
-      // sleep(1);
-    }
+    run_iteration();
 
     printf("Body 0 (x,y,z) = (%f, %f, %f)\n", bodies[0].x, bodies[0].y,
            bodies[0].z);
