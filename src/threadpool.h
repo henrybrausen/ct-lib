@@ -9,14 +9,14 @@
 #include <pthread.h>
 #include <stddef.h>
 
-#include "taskqueue.h"
 #include "pool.h"
+#include "taskqueue.h"
 
 #define THREADPOOL_DEFAULT_BARRIER_POOLSIZE 8
 
 struct threadpool;
 
-struct threadpool_barrier_taskarg {
+struct threadpool_barrier_args {
   struct threadpool *tp;
   struct barrier *bar;
 };
@@ -34,9 +34,9 @@ struct threadpool {
 
   struct pool barrier_pool;
   struct pool barrier_taskarg_pool;
-  
+
   pthread_t *threads;
-  
+
   size_t num_threads;
 };
 
@@ -88,7 +88,6 @@ void threadpool_notify(struct threadpool *tp);
  * \return 0 on success, non-zero on failure.
  */
 int threadpool_push_barrier(struct threadpool *tp);
-
 
 #endif // THREADPOOL_H
 

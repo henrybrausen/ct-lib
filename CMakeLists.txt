@@ -22,6 +22,8 @@ set (CMAKE_C_FLAGS_RELEASE "-O2 -march=native -ftree-vectorize")
 set (TARGET_SRC
   src/pool.c
   src/taskqueue.c
+  src/barrier.c
+  src/threadpool.c
   src/bhtree.c
   src/nbody.c
   )

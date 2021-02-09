@@ -10,9 +10,12 @@
 #include "bhtree.h"
 #include "pool.h"
 #include "taskqueue.h"
+#include "threadpool.h"
 
 // N-Body Simulation Example
 // Uses naive O(N^2) approach to the N-body problem
+
+#define NUMTHREADS 32
 
 #define POOLSIZE 1000
 #define NUMBODIES 1000000
@@ -30,8 +33,7 @@ struct body {
 struct body bodies[NUMBODIES];
 
 struct pool taskarg_p;
-
-struct taskqueue task_q;
+struct threadpool t_pool;
 
 struct bh_tree tree;
 
@@ -65,7 +67,7 @@ void init()
   init_bodies();
 
   pool_init(&taskarg_p, POOLSIZE, sizeof(struct nbody_task_arg));
-  taskqueue_init(&task_q);
+  threadpool_init(&t_pool, NUMTHREADS);
   bh_tree_init(&tree, 10 * NUMBODIES);
 }
 
@@ -172,11 +174,11 @@ void generate_tasks_from_func(size_t num_tasks, void (*task_func)(void *))
     ta->begin = i;
     ta->end =
         (i + bodies_per_task < NUMBODIES) ? (i + bodies_per_task) : NUMBODIES;
-    taskqueue_push(&task_q, (struct task){.func = task_func, .func_args = ta});
+    threadpool_push_task(&t_pool,
+                         (struct task){.func = task_func, .func_args = ta});
   }
 }
 
-#define NUMTHREADS 32
 #define NUMACCELTASKS 200
 #define NUMADVTASKS 3
 
@@ -184,8 +186,8 @@ void run_iteration()
 {
   printf("Updating positions...\n");
   generate_tasks_from_func(NUMADVTASKS, nbody_update_pos);
-  taskqueue_notify(&task_q);
-  taskqueue_wait_for_complete(&task_q);
+  threadpool_notify(&t_pool);
+  threadpool_wait(&t_pool);
   pool_releaseall(&taskarg_p);
 
   printf("Building tree...\n");
@@ -193,14 +195,14 @@ void run_iteration()
 
   printf("Computing forces ...\n");
   generate_tasks_from_func(NUMACCELTASKS, nbody_compute_accel_bh);
-  taskqueue_notify(&task_q);
-  taskqueue_wait_for_complete(&task_q);
+  threadpool_notify(&t_pool);
+  threadpool_wait(&t_pool);
   pool_releaseall(&taskarg_p);
 
   printf("Updating velocities...\n");
+  threadpool_notify(&t_pool);
+  threadpool_wait(&t_pool);
   generate_tasks_from_func(NUMADVTASKS, nbody_update_vel);
-  taskqueue_notify(&task_q);
-  taskqueue_wait_for_complete(&task_q);
   pool_releaseall(&taskarg_p);
 }
 
@@ -210,18 +212,7 @@ int main(int argc, char *argv[])
          NBODY_VERSION_MINOR);
   init();
 
-  printf("Spawning threads...\n");
-
-  pthread_t tids[NUMTHREADS];
-
-  for (size_t i = 0; i < NUMTHREADS; ++i) {
-    int err = pthread_create(&tids[i], NULL, taskqueue_basic_worker_func,
-                             (void *)&task_q);
-    if (err != 0) {
-      printf("Cannot create thread %lu\n", i);
-      exit(EXIT_FAILURE);
-    }
-  }
+  printf("Creating threadpool ...\n");
 
   printf("Body 0 (x,y,z) = (%f, %f, %f)\n", bodies[0].x, bodies[0].y,
          bodies[0].z);
