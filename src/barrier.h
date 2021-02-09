@@ -14,6 +14,7 @@
 #include <stddef.h>
 
 #define BARRIER_SERIAL_THREAD 1
+#define BARRIER_FINAL_THREAD 2
 
 /**
  * \brief Struct to represent an instance of a thread barrier.
@@ -60,7 +61,9 @@ int barrier_destroy(struct barrier *b);
  *
  * \param b The barrier.
  * \return BARRIER_SERIAL_THREAD if the calling thread did not block (calling
- * thread was the final thread to reach the barrier), zero otherwise.
+ * thread was the final thread to reach the barrier), BARRIER_FINAL_THREAD if
+ * the calling thread was the final thread to exit from barrier_wait(), and zero
+ * otherwise.
  */
 int barrier_wait(struct barrier *b);
 

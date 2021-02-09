@@ -52,6 +52,7 @@ int barrier_wait(struct barrier *b)
 
   if (--b->num_threads == 0) {
     b->barrier_reached = 0;
+    ret = BARRIER_FINAL_THREAD;
   }
 
   pthread_mutex_unlock(&b->lock);
