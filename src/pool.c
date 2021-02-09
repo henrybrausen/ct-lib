@@ -1,5 +1,7 @@
 #include "pool.h"
+
 #include <pthread.h>
+#include <stddef.h>
 #include <stdlib.h>
 
 int pool_init(struct pool *pl, size_t capacity, size_t elem_size)
