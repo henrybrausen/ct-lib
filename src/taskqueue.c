@@ -34,6 +34,20 @@ int taskqueue_init(struct taskqueue *q)
   return 0;
 }
 
+int taskqueue_destroy(struct taskqueue *q)
+{
+  int err;
+  pool_destroy(&q->entry_pool);
+  
+  err = pthread_cond_destroy(&q->notify);
+  if (err) { return err; }
+  
+  err = pthread_mutex_destroy(&q->lock);
+  if (err) { return err; }
+
+  return 0;
+}
+
 int taskqueue_push(struct taskqueue *q, struct task t)
 {
   int err = 0;

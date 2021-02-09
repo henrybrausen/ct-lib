@@ -91,10 +91,19 @@ struct taskqueue {
  * \brief Initialize a task queue.
  * \memberof taskqueue
  *
- * \param q Task queue to initialize.
+ * \param q Pointer to task queue to initialize.
  * \return 0 on success, non-zero on failure.
  */
 int taskqueue_init(struct taskqueue *q);
+
+/**
+ * \brief Destroy taskqueue referred to by q, leaving it uninitialized.
+ * \memberof taskqueue
+ *
+ * \param q Pointer to task queue to destroy.
+ * \return 0 on success, non-zero on error.
+ */
+int taskqueue_destroy(struct taskqueue *q);
 
 /**
  * \brief Push a new task into the task queue.

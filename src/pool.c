@@ -28,6 +28,13 @@ int pool_init(struct pool *pl, size_t capacity, size_t elem_size)
   return 0;
 }
 
+int pool_destroy(struct pool *pl)
+{
+  free(pl->objects);
+  free(pl->storage);
+  return pthread_mutex_destroy(&pl->lock);
+}
+
 int pool_resize_locked(struct pool *pl, size_t capacity)
 {
   if (capacity <= pl->capacity) { return -1; }

@@ -47,6 +47,15 @@ struct pool {
 int pool_init(struct pool *pl, size_t capacity, size_t elem_size);
 
 /**
+ * \brief Destroy object pool referred to by pl, leaving it uninitialized.
+ * \memberof pool
+ *
+ * \param pl Pointer to pool to destroy.
+ * \return 0 on success, non-zero on error.
+ */
+int pool_destroy(struct pool *pl);
+
+/**
  * \brief Resize pool storage.
  * \memberof pool
  *
