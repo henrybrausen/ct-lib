@@ -16,7 +16,9 @@
 #include <stddef.h>
 
 /**
- * \brief Generic object pool.
+ * \brief Generic object pool that supports concurrent access.
+ *
+ * \class pool
  *
  * This struct represents an object pool instance, and all its associated
  * state.
@@ -34,6 +36,7 @@ struct pool {
 
 /**
  * \brief Initialize object pool and allocate pool storage.
+ * \memberof pool
  *
  * \param pl Pointer to pool to initialize.
  * \param capacity Number of objects to store in the pool.
@@ -45,6 +48,7 @@ int pool_init(struct pool *pl, size_t capacity, size_t elem_size);
 /**
  * \brief Release/return all stored objects back into the pool. This invalidates
  * any outstanding references to pool objects!
+ * \memberof pool
  *
  * \param pl Pointer to the pool.
  */
@@ -52,6 +56,7 @@ void pool_releaseall(struct pool *pl);
 
 /**
  * \brief Acquire an object from the pool.
+ * \memberof pool
  *
  * \param pl Pointer to the pool.
  * \return Pointer to storage for the object, or NULL if error.
@@ -60,6 +65,7 @@ void *pool_acquire(struct pool *pl);
 
 /**
  * \brief Release/return an object back into the pool.
+ * \memberof pool
  *
  * \param pl Pointer to the pool.
  * \return 0 on success, -1 on error.
