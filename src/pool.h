@@ -15,6 +15,7 @@
 #include <pthread.h>
 #include <stddef.h>
 
+
 /**
  * \brief Generic object pool that supports concurrent access.
  *
@@ -25,7 +26,7 @@
  */
 struct pool {
   size_t capacity;  /**< Maximum number of objects that the pool can store. */
-  size_t count;     /**< Number of objects currently in the pool. */
+  size_t ac_count;  /**< Number of objects not currently in the pool. */
   size_t elem_size; /**< Size of a stored object, in bytes. */
   void **objects;   /**< Array of pointers to objects currently in pool. */
 
@@ -44,6 +45,19 @@ struct pool {
  * \return 0 on success, -1 on error.
  */
 int pool_init(struct pool *pl, size_t capacity, size_t elem_size);
+
+/**
+ * \brief Resize pool storage.
+ * \memberof pool
+ *
+ * Change pool capacity. The new pool capacity must be greater than the current
+ * capacity.
+ *
+ * \param pl Pointer to pool to resize.
+ * \param capacity New capacity of pool (maximum number of objects that can be
+ * stored.) \return 0 on success, -1 on error.
+ */
+int pool_resize(struct pool *pl, size_t capacity);
 
 /**
  * \brief Release/return all stored objects back into the pool. This invalidates
@@ -72,5 +86,5 @@ void *pool_acquire(struct pool *pl);
  */
 int pool_release(struct pool *pl, void *elem);
 
-#endif // __POOL_H__
+#endif // POOL_H
 

@@ -29,7 +29,6 @@ struct body {
 
 struct body bodies[NUMBODIES];
 
-struct pool task_p;
 struct pool taskarg_p;
 
 struct taskqueue task_q;
@@ -65,7 +64,6 @@ void init()
 {
   init_bodies();
 
-  pool_init(&task_p, POOLSIZE, sizeof(struct task));
   pool_init(&taskarg_p, POOLSIZE, sizeof(struct nbody_task_arg));
   taskqueue_init(&task_q);
   bh_tree_init(&tree, 10 * NUMBODIES);
@@ -164,15 +162,14 @@ void nbody_update_vel(void *arg)
 
 void *nbody_thread_func(void *arg)
 {
-  struct task *my_task;
+  struct task my_task;
 
   for (;;) {
-    my_task = taskqueue_wait_for_work(&task_q);
-    my_task->func(my_task->func_args);
+    taskqueue_wait_for_work(&task_q, &my_task);
+    my_task.func(my_task.func_args);
 
-    // Return objects to pool
-    pool_release(&taskarg_p, my_task->func_args);
-    pool_release(&task_p, my_task);
+    // Return taskarg to pool
+    pool_release(&taskarg_p, my_task.func_args);
 
     taskqueue_task_complete(&task_q);
   }
@@ -181,14 +178,9 @@ void *nbody_thread_func(void *arg)
 
 void generate_tasks_from_func(size_t num_tasks, void (*task_func)(void *))
 {
-  struct task *t;
   struct nbody_task_arg *ta;
   size_t bodies_per_task = NUMBODIES / num_tasks;
   for (size_t i = 0; i < NUMBODIES; i += bodies_per_task) {
-    if ((t = pool_acquire(&task_p)) == NULL) {
-      printf("could not acquire task from pool\n");
-      exit(EXIT_FAILURE);
-    }
     if ((ta = pool_acquire(&taskarg_p)) == NULL) {
       printf("could not acquire taskarg from pool\n");
       exit(EXIT_FAILURE);
@@ -196,9 +188,7 @@ void generate_tasks_from_func(size_t num_tasks, void (*task_func)(void *))
     ta->begin = i;
     ta->end =
         (i + bodies_per_task < NUMBODIES) ? (i + bodies_per_task) : NUMBODIES;
-    t->func = task_func;
-    t->func_args = ta;
-    taskqueue_push(&task_q, t);
+    taskqueue_push(&task_q, (struct task){.func = task_func, .func_args = ta});
   }
 }
 

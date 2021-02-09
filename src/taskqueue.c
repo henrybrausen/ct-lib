@@ -1,12 +1,15 @@
 #include "taskqueue.h"
+#include "pool.h"
+
 #include <pthread.h>
 #include <stdlib.h>
 
-void task_init(struct task *t, void (*func)(void *), void *func_args)
+void taskqueue_entry_init(struct taskqueue_entry *te, void (*func)(void *),
+                          void *func_args)
 {
-  t->next = t->prev = NULL;
-  t->func = func;
-  t->func_args = func_args;
+  te->next = te->prev = NULL;
+  te->task.func = func;
+  te->task.func_args = func_args;
 }
 
 void task_execute(struct task *t) { t->func(t->func_args); }
@@ -24,34 +27,49 @@ int taskqueue_init(struct taskqueue *q)
   err = pthread_cond_init(&q->notify, NULL);
   if (err) { return err; }
 
+  err = pool_init(&q->entry_pool, TASKQUEUE_DEFAULT_POOLSIZE,
+                  sizeof(struct taskqueue_entry));
+  if (err) { return err; }
+
   return 0;
 }
 
-void taskqueue_push(struct taskqueue *q, struct task *t)
+int taskqueue_push(struct taskqueue *q, struct task t)
 {
+  int err = 0;
   pthread_mutex_lock(&q->lock);
 
-  t->next = q->head;
-  t->prev = NULL;
-
-  if (q->head == NULL) { q->tail = t; }
-  else {
-    q->head->prev = t;
+  struct taskqueue_entry *te = pool_acquire(&q->entry_pool);
+  if (te == NULL) {
+    err = -1;
+    goto done;
   }
-  q->head = t;
+
+  te->next = q->head;
+  te->prev = NULL;
+  te->task = t;
+
+  if (q->head == NULL) { q->tail = te; }
+  else {
+    q->head->prev = te;
+  }
+  q->head = te;
 
   q->count += 1;
 
+done:
   pthread_mutex_unlock(&q->lock);
+  return err;
 }
 
-struct task *taskqueue_pop_locked(struct taskqueue *q)
+int taskqueue_pop_locked(struct taskqueue *q, struct task *t)
 {
-  struct task *elem = NULL;
 
-  if (q->count == 0) { return NULL; }
+  if (t == NULL) { return -1; }
 
-  elem = q->tail;
+  if (q->count == 0) { return -1; }
+
+  struct taskqueue_entry *te = q->tail;
 
   if (q->count != 1) { q->tail = q->tail->prev; }
   else {
@@ -60,22 +78,21 @@ struct task *taskqueue_pop_locked(struct taskqueue *q)
 
   q->count--;
 
-  elem->next = elem->prev = NULL;
+  *t = te->task;
 
-  return elem;
+  return pool_release(&q->entry_pool, te);
 }
 
-struct task *taskqueue_pop(struct taskqueue *q)
+int taskqueue_pop(struct taskqueue *q, struct task *t)
 {
-  struct task *elem = NULL;
-
+  int err;
   pthread_mutex_lock(&q->lock);
 
-  elem = taskqueue_pop_locked(q);
+  err = taskqueue_pop_locked(q, t);
 
   pthread_mutex_unlock(&q->lock);
 
-  return elem;
+  return err;
 }
 
 size_t taskqueue_count(struct taskqueue *q)
@@ -89,18 +106,18 @@ size_t taskqueue_count(struct taskqueue *q)
   return count;
 }
 
-struct task *taskqueue_wait_for_work(struct taskqueue *q)
+int taskqueue_wait_for_work(struct taskqueue *q, struct task *t)
 {
-  struct task *ret;
+  int ret;
   pthread_mutex_lock(&q->lock);
 
   while (q->count == 0) {
     pthread_cond_wait(&q->notify, &q->lock);
   }
-  if ((ret = taskqueue_pop_locked(q)) == NULL) {
+  if ((ret = taskqueue_pop_locked(q, t)) != 0) {
     // NOTE: This is an error condition.
-    // We will simply return NULL in this case.
-  } else {
+  }
+  else {
     q->num_running += 1;
   }
   pthread_mutex_unlock(&q->lock);
@@ -130,3 +147,4 @@ void taskqueue_task_complete(struct taskqueue *q)
   pthread_mutex_unlock(&q->lock);
   taskqueue_notify(q);
 }
+
