@@ -84,7 +84,7 @@ void bb_update()
                  (struct bh_vec3){max_coord, max_coord, max_coord});
 }
 
-void build_tree()
+void build_tree(void *arg)
 {
 
   bh_tree_clear(&tree);
@@ -186,23 +186,21 @@ void run_iteration()
 {
   printf("Updating positions...\n");
   generate_tasks_from_func(NUMADVTASKS, nbody_update_pos);
-  threadpool_notify(&t_pool);
-  threadpool_wait(&t_pool);
-  pool_releaseall(&taskarg_p);
+  threadpool_push_barrier(&t_pool);
 
   printf("Building tree...\n");
-  build_tree();
+  threadpool_push_task(&t_pool,
+                       (struct task){.func = build_tree, .func_args = NULL});
+  threadpool_push_barrier(&t_pool);
 
   printf("Computing forces ...\n");
   generate_tasks_from_func(NUMACCELTASKS, nbody_compute_accel_bh);
-  threadpool_notify(&t_pool);
-  threadpool_wait(&t_pool);
-  pool_releaseall(&taskarg_p);
+  threadpool_push_barrier(&t_pool);
 
   printf("Updating velocities...\n");
+  generate_tasks_from_func(NUMADVTASKS, nbody_update_vel);
   threadpool_notify(&t_pool);
   threadpool_wait(&t_pool);
-  generate_tasks_from_func(NUMADVTASKS, nbody_update_vel);
   pool_releaseall(&taskarg_p);
 }
 
