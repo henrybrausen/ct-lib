@@ -168,5 +168,17 @@ void taskqueue_task_complete(struct taskqueue *q);
  */
 int taskqueue_notify(struct taskqueue *q);
 
+/**
+ * \brief Basic worker thread function for use with task queue.
+ *
+ * This function loops forever, consuming and executing tasks on the queue.
+ * When no work is available, this function will block on
+ * taskqueue_wait_for_work(). Call taskqueue_notify() to wake up all blocked
+ * threads and resume task execution.
+ *
+ * \param Task queue on which worker thread operates (casted to void *)
+ */
+void *taskqueue_basic_worker_func(void *qp);
+
 #endif // TASKQUEUE_H
 

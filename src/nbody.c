@@ -47,7 +47,7 @@ double rand_double(double min, double max)
 
 void init_bodies()
 {
-  srand(time(NULL));
+  // srand(time(NULL));
 
   for (size_t i = 0; i < NUMBODIES; ++i) {
     bodies[i].mass = rand_double(1.0, 10.0);
@@ -160,22 +160,6 @@ void nbody_update_vel(void *arg)
   }
 }
 
-void *nbody_thread_func(void *arg)
-{
-  struct task my_task;
-
-  for (;;) {
-    taskqueue_wait_for_work(&task_q, &my_task);
-    my_task.func(my_task.func_args);
-
-    // Return taskarg to pool
-    pool_release(&taskarg_p, my_task.func_args);
-
-    taskqueue_task_complete(&task_q);
-  }
-  return (void *)0;
-}
-
 void generate_tasks_from_func(size_t num_tasks, void (*task_func)(void *))
 {
   struct nbody_task_arg *ta;
@@ -202,6 +186,7 @@ void run_iteration()
   generate_tasks_from_func(NUMADVTASKS, nbody_update_pos);
   taskqueue_notify(&task_q);
   taskqueue_wait_for_complete(&task_q);
+  pool_releaseall(&taskarg_p);
 
   printf("Building tree...\n");
   build_tree();
@@ -210,11 +195,13 @@ void run_iteration()
   generate_tasks_from_func(NUMACCELTASKS, nbody_compute_accel_bh);
   taskqueue_notify(&task_q);
   taskqueue_wait_for_complete(&task_q);
+  pool_releaseall(&taskarg_p);
 
   printf("Updating velocities...\n");
   generate_tasks_from_func(NUMADVTASKS, nbody_update_vel);
   taskqueue_notify(&task_q);
   taskqueue_wait_for_complete(&task_q);
+  pool_releaseall(&taskarg_p);
 }
 
 int main(int argc, char *argv[])
@@ -228,7 +215,8 @@ int main(int argc, char *argv[])
   pthread_t tids[NUMTHREADS];
 
   for (size_t i = 0; i < NUMTHREADS; ++i) {
-    int err = pthread_create(&tids[i], NULL, nbody_thread_func, NULL);
+    int err = pthread_create(&tids[i], NULL, taskqueue_basic_worker_func,
+                             (void *)&task_q);
     if (err != 0) {
       printf("Cannot create thread %lu\n", i);
       exit(EXIT_FAILURE);

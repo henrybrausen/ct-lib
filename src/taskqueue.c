@@ -148,3 +148,17 @@ void taskqueue_task_complete(struct taskqueue *q)
   taskqueue_notify(q);
 }
 
+void *taskqueue_basic_worker_func(void *qp)
+{
+  struct taskqueue *q = (struct taskqueue *)qp;
+  struct task t;
+
+  for (;;) {
+    taskqueue_wait_for_work(q, &t);
+    t.func(t.func_args);
+
+    taskqueue_task_complete(q);
+  }
+  return (void *)0;
+}
+
