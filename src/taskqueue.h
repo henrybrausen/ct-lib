@@ -10,6 +10,8 @@
 #ifndef TASKQUEUE_H
 #define TASKQUEUE_H
 
+#include "queue.h"
+
 #include <pthread.h>
 #include <stddef.h>
 
@@ -57,21 +59,6 @@ void task_destroy(struct task *t);
 int task_freeze(struct task *t);
 
 /**
- * \brief A single entry in the task queue FIFO.
- *
- * \class taskqueue_entry
- *
- * A taskqueue_entry is an element in a doubly-linked list which contains a
- * task.
- */
-struct taskqueue_entry {
-  struct taskqueue_entry *next;
-  struct taskqueue_entry *prev;
-
-  struct task task;
-};
-
-/**
  * \brief Task queue FIFO for assigning tasks to worker threads.
  *
  * \class taskqueue
@@ -80,10 +67,8 @@ struct taskqueue_entry {
  * state.
  */
 struct taskqueue {
-  struct taskqueue_entry *head;
-  struct taskqueue_entry *tail;
+  struct queue queue;
 
-  size_t count;         /**< Number of tasks currently in the queue. */
   size_t num_running;   /**< Number of tasks currently running. */
   pthread_mutex_t lock; /**< Mutex for concurrent access. */
 
