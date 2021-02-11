@@ -32,7 +32,6 @@ struct body {
 
 struct body bodies[NUMBODIES];
 
-struct pool taskarg_p;
 struct threadpool t_pool;
 
 struct bh_tree tree;
@@ -66,7 +65,6 @@ void init()
 {
   init_bodies();
 
-  pool_init(&taskarg_p, POOLSIZE, sizeof(struct nbody_task_arg));
   threadpool_init(&t_pool, NUMTHREADS);
   bh_tree_init(&tree, 10 * NUMBODIES);
 }
@@ -164,18 +162,15 @@ void nbody_update_vel(void *arg)
 
 void generate_tasks_from_func(size_t num_tasks, void (*task_func)(void *))
 {
-  struct nbody_task_arg *ta;
+  struct nbody_task_arg ta;
   size_t bodies_per_task = NUMBODIES / num_tasks;
   for (size_t i = 0; i < NUMBODIES; i += bodies_per_task) {
-    if ((ta = pool_acquire(&taskarg_p)) == NULL) {
-      printf("could not acquire taskarg from pool\n");
-      exit(EXIT_FAILURE);
-    }
-    ta->begin = i;
-    ta->end =
+    ta.begin = i;
+    ta.end =
         (i + bodies_per_task < NUMBODIES) ? (i + bodies_per_task) : NUMBODIES;
-    threadpool_push_task(&t_pool,
-                         (struct task){.func = task_func, .func_args = ta});
+    threadpool_push_task(
+        &t_pool,
+        (struct task){.func = task_func, .arg = &ta, .arg_size = sizeof(ta)});
   }
 }
 
@@ -189,8 +184,7 @@ void run_iteration()
   threadpool_push_barrier(&t_pool);
 
   printf("Building tree...\n");
-  threadpool_push_task(&t_pool,
-                       (struct task){.func = build_tree, .func_args = NULL});
+  threadpool_push_task(&t_pool, (struct task){.func = build_tree});
   threadpool_push_barrier(&t_pool);
 
   printf("Computing forces ...\n");
@@ -201,7 +195,6 @@ void run_iteration()
   generate_tasks_from_func(NUMADVTASKS, nbody_update_vel);
   threadpool_notify(&t_pool);
   threadpool_wait(&t_pool);
-  pool_releaseall(&taskarg_p);
 }
 
 int main(int argc, char *argv[])

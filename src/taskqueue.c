@@ -1,18 +1,37 @@
 #include "taskqueue.h"
-#include "pool.h"
 
 #include <pthread.h>
 #include <stdlib.h>
+#include <string.h>
 
-void taskqueue_entry_init(struct taskqueue_entry *te, void (*func)(void *),
-                          void *func_args)
+void task_execute(struct task *t)
 {
-  te->next = te->prev = NULL;
-  te->task.func = func;
-  te->task.func_args = func_args;
+  t->func(t->arg);
+
+  // Destroy task after execution, freeing memory associated with task argument
+  task_destroy(t);
 }
 
-void task_execute(struct task *t) { t->func(t->func_args); }
+void task_destroy(struct task *t)
+{
+  if (t->arg_size > 0) { free(t->arg); }
+}
+
+int task_freeze(struct task *t)
+{
+  if (t->arg_size == 0) {
+    // Special case, do not allocate.
+    return 0;
+  }
+
+  void *p = malloc(t->arg_size);
+
+  if (p == NULL) { return -1; }
+
+  t->arg = memcpy(p, t->arg, t->arg_size);
+
+  return 0;
+}
 
 int taskqueue_init(struct taskqueue *q)
 {
@@ -27,17 +46,12 @@ int taskqueue_init(struct taskqueue *q)
   err = pthread_cond_init(&q->notify, NULL);
   if (err) { return err; }
 
-  err = pool_init(&q->entry_pool, TASKQUEUE_DEFAULT_POOLSIZE,
-                  sizeof(struct taskqueue_entry));
-  if (err) { return err; }
-
   return 0;
 }
 
 int taskqueue_destroy(struct taskqueue *q)
 {
   int err;
-  pool_destroy(&q->entry_pool);
 
   err = pthread_cond_destroy(&q->notify);
   if (err) { return err; }
@@ -45,18 +59,29 @@ int taskqueue_destroy(struct taskqueue *q)
   err = pthread_mutex_destroy(&q->lock);
   if (err) { return err; }
 
+  struct taskqueue_entry *cur = q->head;
+  struct taskqueue_entry *next;
+
+  while (cur != NULL) {
+    next = cur->next;
+    free(cur);
+    cur = next;
+  }
+
   return 0;
 }
 
 int taskqueue_push_locked(struct taskqueue *q, struct task t)
 {
-  struct taskqueue_entry *te = pool_acquire(&q->entry_pool);
+  struct taskqueue_entry *te = malloc(sizeof(*te));
 
   if (te == NULL) { return -1; }
 
   te->next = q->head;
   te->prev = NULL;
   te->task = t;
+
+  if (task_freeze(&te->task) != 0) { return -1; }
 
   if (q->head == NULL) { q->tail = te; }
   else {
@@ -119,7 +144,9 @@ int taskqueue_pop_locked(struct taskqueue *q, struct task *t)
 
   *t = te->task;
 
-  return pool_release(&q->entry_pool, te);
+  free(te);
+
+  return 0;
 }
 
 int taskqueue_pop(struct taskqueue *q, struct task *t)
@@ -194,8 +221,7 @@ void *taskqueue_basic_worker_func(void *qp)
 
   for (;;) {
     taskqueue_wait_for_work(q, &t);
-    t.func(t.func_args);
-
+    task_execute(&t);
     taskqueue_task_complete(q);
   }
   return (void *)0;

@@ -32,9 +32,6 @@ struct threadpool_barrier_args {
 struct threadpool {
   struct taskqueue queue;
 
-  struct pool barrier_pool;
-  struct pool barrier_arg_pool;
-
   pthread_t *threads;
 
   size_t num_threads;

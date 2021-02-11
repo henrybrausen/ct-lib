@@ -13,21 +13,21 @@
 #include <pthread.h>
 #include <stddef.h>
 
-#include "pool.h"
-
-#define TASKQUEUE_DEFAULT_POOLSIZE 256
-
 /**
  * \brief Generic task that can be scheduled for execution.
  *
  * \class task
  *
  * A task is a function pointer and argument pair.
- * Execution of a task corresponds to calling func(func_args)
+ * Execution of a task corresponds to calling func(arg)
+ *
+ * Each task owns the memory associated with its argument, and frees this
+ * memory after execution. As a result, a task may only be executed once!
  */
 struct task {
   void (*func)(void *);
-  void *func_args;
+  void *arg;
+  size_t arg_size;
 };
 
 /**
@@ -37,6 +37,24 @@ struct task {
  * \param t Task to execute.
  */
 void task_execute(struct task *t);
+
+/**
+ * \brief Free any resources associated with task t, leaving t in an
+ * uninitialized state.
+ * \memberof task
+ *
+ * \param t Task to destroy.
+ */
+void task_destroy(struct task *t);
+
+/**
+ * \brief Create local copy of function argument for task.
+ * \memberof task
+ *
+ * \param t Task to freeze.
+ * \return 0 on success, non-zero on failure.
+ */
+int task_freeze(struct task *t);
 
 /**
  * \brief A single entry in the task queue FIFO.
@@ -52,17 +70,6 @@ struct taskqueue_entry {
 
   struct task task;
 };
-
-/**
- * \brief Initialize a taskqueue_entry to represent a call to func(func_args).
- * \memberof taskqueue_entry
- *
- * \param te Pointer to taskqueue_entry to initialize
- * \param func Function call for task stored in entry.
- * \param func_args Argument to task function.
- */
-void taskqueue_entry_init(struct taskqueue_entry *te, void (*func)(void *),
-                          void *func_args);
 
 /**
  * \brief Task queue FIFO for assigning tasks to worker threads.
@@ -82,9 +89,6 @@ struct taskqueue {
 
   /** Condition variable for notification of waiting threads. */
   pthread_cond_t notify;
-
-  /** Object pool to store taskqueue_entry instances */
-  struct pool entry_pool;
 };
 
 /**
@@ -125,7 +129,6 @@ int taskqueue_push(struct taskqueue *q, struct task t);
  * \return 0 on success, non-zero on failure
  */
 int taskqueue_push_n(struct taskqueue *q, struct task t, size_t n);
-
 
 /**
  * \brief Retrieve and pop a task from the task queue.
