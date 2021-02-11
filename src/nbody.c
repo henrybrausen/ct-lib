@@ -166,14 +166,14 @@ void generate_tasks_from_func(size_t num_tasks, void (*task_func)(void *))
   size_t bodies_per_task = NUMBODIES / num_tasks;
   for (size_t i = 0; i < NUMBODIES; i += bodies_per_task) {
     threadpool_push_task(
-        &t_pool,
-        (struct task){
-          .func = task_func,
-          .arg = &(struct nbody_task_arg) {
-            .begin = i,
-            .end = (i + bodies_per_task < NUMBODIES) ? (i + bodies_per_task) : NUMBODIES
-        },
-        .arg_size = sizeof(struct nbody_task_arg)});
+        &t_pool, (struct task){.func = task_func,
+                               .arg =
+                                   &(struct nbody_task_arg){
+                                       .begin = i,
+                                       .end = (i + bodies_per_task < NUMBODIES)
+                                                  ? (i + bodies_per_task)
+                                                  : NUMBODIES},
+                               .arg_size = sizeof(struct nbody_task_arg)});
   }
 }
 

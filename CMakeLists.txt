@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(nbody VERSION 0.1)
 
+enable_testing()
+
 configure_file(config.h.in config.h)
 
 set(CMAKE_C_STANDARD 99)
@@ -15,9 +17,6 @@ if(NOT CMAKE_USE_PTHREADS_INIT)
 endif()
 
 set (CMAKE_C_FLAGS "-Wall")
-
-set (CMAKE_C_FLAGS_DEBUG "-O0 -g")
-set (CMAKE_C_FLAGS_RELEASE "-O2 -march=native -ftree-vectorize")
 
 set (CT_LIB_SOURCES
   src/pool.c
@@ -34,6 +33,8 @@ target_include_directories(ct_lib PUBLIC
   )
 
 target_link_libraries(ct_lib Threads::Threads)
+
+add_subdirectory(tests)
 
 set (NBODY_SOURCES
   src/bhtree.c
