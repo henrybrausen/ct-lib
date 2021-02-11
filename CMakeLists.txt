@@ -37,7 +37,7 @@ target_include_directories(nbody PUBLIC
 
 target_link_libraries(nbody Threads::Threads m)
 
-add_custom_command (TARGET nbody POST_BUILD
-  COMMAND objdump -CSlr nbody > nbody.s
-  )
+#add_custom_command (TARGET nbody POST_BUILD
+#  COMMAND objdump -CSlr nbody > nbody.s
+#  )
 
