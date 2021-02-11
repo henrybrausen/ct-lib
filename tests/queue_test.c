@@ -16,7 +16,9 @@
 #define MAX_QUEUESIZE 10000
 #define NUM_OPS 10000
 
-// Simple function to check the integrity of the queue's linked list.
+/**
+ * \brief Simple function to check the integrity of the queue's linked list.
+ */
 void check_integrity(struct queue *q)
 {
   if (q->count == 0) {
@@ -29,7 +31,7 @@ void check_integrity(struct queue *q)
   }
   else {
     assert(q->head != NULL);
-    int count = 0;
+    int count = 1;
     struct queue_entry *e = q->head;
     while (e->next != NULL) {
       e = e->next;
