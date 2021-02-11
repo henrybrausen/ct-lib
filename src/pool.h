@@ -15,6 +15,8 @@
 #include <pthread.h>
 #include <stddef.h>
 
+/*
+ */
 
 /**
  * \brief Generic object pool that supports concurrent access.
@@ -23,6 +25,11 @@
  *
  * This struct represents an object pool instance, and all its associated
  * state.
+ *
+ * \example pool_example.c
+ *
+ * Example to demonstrage use of pool.
+ *
  */
 struct pool {
   size_t capacity;  /**< Maximum number of objects that the pool can store. */
