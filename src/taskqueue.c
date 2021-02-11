@@ -107,7 +107,10 @@ int taskqueue_pop_locked(struct taskqueue *q, struct task *t)
 
   struct taskqueue_entry *te = q->tail;
 
-  if (q->count != 1) { q->tail = q->tail->prev; }
+  if (q->count != 1) {
+    q->tail = q->tail->prev;
+    q->tail->next = NULL;
+  }
   else {
     q->head = q->tail = NULL;
   }
