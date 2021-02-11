@@ -1,3 +1,11 @@
+/**
+ * \file threadpool_pps_test.c
+ * \brief Unit test of threadpool based on computing the parallel prefix sum.
+ *
+ * Computes the prefix sum of an array of numbers in parallel, and then checks
+ * the result against the result of a linear scan.
+ */
+
 #include <math.h>
 #include <pthread.h>
 #include <stddef.h>
@@ -10,9 +18,11 @@
 #include "threadpool.h"
 #include "tictoc.h"
 
-#define NUM_ELEMS_POW 24
+#define NUM_ELEMS_POW 22
 // Must be 2^N
 #define NUM_ELEMS (1ull << NUM_ELEMS_POW)
+
+#define NUM_THREADS 8
 
 int *array, *array2;
 
@@ -31,7 +41,7 @@ void init()
     printf("Could not allocate array!\n");
     exit(1);
   }
-  threadpool_init(&tp, 4);
+  threadpool_init(&tp, NUM_THREADS);
 }
 
 void randomize_array_task(void *arg)
@@ -40,7 +50,7 @@ void randomize_array_task(void *arg)
   unsigned int seed = range->begin;
 
   for (size_t i = range->begin; i != range->end; ++i) {
-    array[i] = (int)i; // rand_r(&seed) - (RAND_MAX >> 1);
+    array[i] = rand_r(&seed) - (RAND_MAX >> 1);
   }
 }
 
@@ -90,14 +100,14 @@ void generate_tasks_from_func(size_t num_tasks, void (*task_func)(void *),
   }
 }
 
-#define NUMPPSTASKS 32
+#define NUM_PPS_TASKS 32
 
 size_t min(size_t x, size_t y) { return (x < y) ? x : y; }
 
 void run_pps()
 {
   for (int d = 0; d <= NUM_ELEMS_POW - 1; ++d) {
-    size_t num_tasks = min(NUMPPSTASKS, NUM_ELEMS >> (d + 1));
+    size_t num_tasks = min(NUM_PPS_TASKS, NUM_ELEMS >> (d + 1));
     printf("Generating %d upsweep task(s) d=%d\n", (int)num_tasks, d);
     generate_tasks_from_func(num_tasks, pps_upsweep, d);
     threadpool_push_barrier(&tp);
@@ -108,7 +118,7 @@ void run_pps()
 
   array[NUM_ELEMS - 1] = 0;
   for (int d = NUM_ELEMS_POW - 1; d >= 0; --d) {
-    size_t num_tasks = min(NUMPPSTASKS, NUM_ELEMS >> (d + 1));
+    size_t num_tasks = min(NUM_PPS_TASKS, NUM_ELEMS >> (d + 1));
     printf("Generating %d downsweep task(s) d=%d\n", (int)num_tasks, d);
     generate_tasks_from_func(num_tasks, pps_downsweep, d);
     threadpool_push_barrier(&tp);
@@ -118,8 +128,7 @@ void run_pps()
   threadpool_wait(&tp);
 }
 
-#define NUMTHREADS 4
-#define NUMRANDTASKS 32
+#define NUM_RAND_TASKS 32
 
 void doublecheck_prepare()
 {
@@ -149,15 +158,15 @@ int main(int argc, char *argv[])
   init();
 
   printf("Generating randomization tasks...\n");
-  generate_tasks_from_func(NUMRANDTASKS, randomize_array_task, 0);
+  generate_tasks_from_func(NUM_RAND_TASKS, randomize_array_task, 0);
 
   printf("Randomizing array...\n");
   tic();
   threadpool_notify(&tp);
   threadpool_wait(&tp);
+  printf("Done! %.3f ms\n", toc());
 
   array[NUM_ELEMS - 1] = 0;
-  printf("Done! %.3f ms\n", toc());
 
   printf("Memcpy...\n");
   tic();
