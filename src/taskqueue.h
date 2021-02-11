@@ -116,6 +116,18 @@ int taskqueue_destroy(struct taskqueue *q);
 int taskqueue_push(struct taskqueue *q, struct task t);
 
 /**
+ * \brief Push a N identical copies of task into the task queue.
+ * \memberof taskqueue
+ *
+ * \param q The task queue.
+ * \param t Task to push.
+ * \param n Number of copies to push.
+ * \return 0 on success, non-zero on failure
+ */
+int taskqueue_push_n(struct taskqueue *q, struct task t, size_t n);
+
+
+/**
  * \brief Retrieve and pop a task from the task queue.
  * \memberof taskqueue
  *

@@ -33,7 +33,7 @@ struct threadpool {
   struct taskqueue queue;
 
   struct pool barrier_pool;
-  struct pool barrier_taskarg_pool;
+  struct pool barrier_arg_pool;
 
   pthread_t *threads;
 

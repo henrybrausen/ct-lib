@@ -38,26 +38,21 @@ int taskqueue_destroy(struct taskqueue *q)
 {
   int err;
   pool_destroy(&q->entry_pool);
-  
+
   err = pthread_cond_destroy(&q->notify);
   if (err) { return err; }
-  
+
   err = pthread_mutex_destroy(&q->lock);
   if (err) { return err; }
 
   return 0;
 }
 
-int taskqueue_push(struct taskqueue *q, struct task t)
+int taskqueue_push_locked(struct taskqueue *q, struct task t)
 {
-  int err = 0;
-  pthread_mutex_lock(&q->lock);
-
   struct taskqueue_entry *te = pool_acquire(&q->entry_pool);
-  if (te == NULL) {
-    err = -1;
-    goto done;
-  }
+
+  if (te == NULL) { return -1; }
 
   te->next = q->head;
   te->prev = NULL;
@@ -71,8 +66,35 @@ int taskqueue_push(struct taskqueue *q, struct task t)
 
   q->count += 1;
 
-done:
+  return 0;
+}
+
+int taskqueue_push(struct taskqueue *q, struct task t)
+{
+  int ret;
+
+  pthread_mutex_lock(&q->lock);
+
+  ret = taskqueue_push_locked(q, t);
+
   pthread_mutex_unlock(&q->lock);
+
+  return ret;
+}
+
+int taskqueue_push_n(struct taskqueue *q, struct task t, size_t n)
+{
+  int err;
+
+  pthread_mutex_lock(&q->lock);
+
+  for (size_t i = 0; i < n; ++i) {
+    err = taskqueue_push_locked(q, t);
+    if (err) { break; }
+  }
+
+  pthread_mutex_unlock(&q->lock);
+
   return err;
 }
 

@@ -18,9 +18,8 @@ int threadpool_init(struct threadpool *tp, size_t num_threads)
                   sizeof(struct barrier));
   if (err) { return err; }
 
-  err =
-      pool_init(&tp->barrier_taskarg_pool, THREADPOOL_DEFAULT_BARRIER_POOLSIZE,
-                sizeof(struct threadpool_barrier_args));
+  err = pool_init(&tp->barrier_arg_pool, THREADPOOL_DEFAULT_BARRIER_POOLSIZE,
+                  sizeof(struct threadpool_barrier_args));
   if (err) { return err; }
 
   if ((tp->threads = malloc(num_threads * sizeof(*tp->threads))) == NULL) {
@@ -57,7 +56,7 @@ void threadpool_barrier_task_func(void *arg)
   if (ret == BARRIER_FINAL_THREAD) {
     // If we were the final thread to exit the barrier, clean up after ourselves
     pool_release(&ta->tp->barrier_pool, ta->bar);
-    pool_release(&ta->tp->barrier_taskarg_pool, ta);
+    pool_release(&ta->tp->barrier_arg_pool, ta);
   }
 }
 
@@ -65,7 +64,7 @@ int threadpool_push_barrier(struct threadpool *tp)
 {
   int err;
 
-  struct threadpool_barrier_args *ta = pool_acquire(&tp->barrier_taskarg_pool);
+  struct threadpool_barrier_args *ta = pool_acquire(&tp->barrier_arg_pool);
   if (ta == NULL) { return -1; }
 
   struct barrier *bar = pool_acquire(&tp->barrier_pool);
@@ -74,12 +73,11 @@ int threadpool_push_barrier(struct threadpool *tp)
   err = barrier_init(bar, tp->num_threads);
   if (err) { return err; }
 
-  for (size_t i = 0; i < tp->num_threads; ++i) {
-    err = threadpool_push_task(
-        tp,
-        (struct task){.func = threadpool_barrier_task_func, .func_args = ta});
-    if (err) { return err; }
-  }
+  err = taskqueue_push_n(
+      &tp->queue,
+      (struct task){.func = threadpool_barrier_task_func, .func_args = ta},
+      tp->num_threads);
+  if (err) { return err; }
 
   return 0;
 }

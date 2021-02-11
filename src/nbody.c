@@ -18,7 +18,7 @@
 #define NUMTHREADS 32
 
 #define POOLSIZE 1000
-#define NUMBODIES 1000000
+#define NUMBODIES 100000
 #define SIM_DT 0.001
 #define MINDIST 1e-3L
 
