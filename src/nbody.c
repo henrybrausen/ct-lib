@@ -1,5 +1,6 @@
 #include <math.h>
 #include <pthread.h>
+#include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -162,15 +163,17 @@ void nbody_update_vel(void *arg)
 
 void generate_tasks_from_func(size_t num_tasks, void (*task_func)(void *))
 {
-  struct nbody_task_arg ta;
   size_t bodies_per_task = NUMBODIES / num_tasks;
   for (size_t i = 0; i < NUMBODIES; i += bodies_per_task) {
-    ta.begin = i;
-    ta.end =
-        (i + bodies_per_task < NUMBODIES) ? (i + bodies_per_task) : NUMBODIES;
     threadpool_push_task(
         &t_pool,
-        (struct task){.func = task_func, .arg = &ta, .arg_size = sizeof(ta)});
+        (struct task){
+          .func = task_func,
+          .arg = &(struct nbody_task_arg) {
+            .begin = i,
+            .end = (i + bodies_per_task < NUMBODIES) ? (i + bodies_per_task) : NUMBODIES
+        },
+        .arg_size = sizeof(struct nbody_task_arg)});
   }
 }
 
