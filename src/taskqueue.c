@@ -101,17 +101,20 @@ int taskqueue_push_n(struct taskqueue *q, struct task t, size_t n)
 {
   int err;
 
-  struct task *tp = malloc(sizeof(*tp));
-  if (tp == NULL) { return -1; }
-
-  *tp = t;
-
-  err = task_freeze(tp);
-  if (err) { return err; }
-
   pthread_mutex_lock(&q->lock);
 
   for (size_t i = 0; i < n; ++i) {
+    struct task *tp = malloc(sizeof(*tp));
+    if (tp == NULL) {
+      err = -1;
+      break;
+    }
+
+    *tp = t;
+
+    err = task_freeze(tp);
+    if (err) { break; }
+
     err = queue_push(&q->queue, tp);
     if (err) { break; }
   }

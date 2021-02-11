@@ -6,7 +6,7 @@
 int barrier_init(struct barrier *b, size_t num_threads)
 {
   int err;
-  
+
   err = pthread_mutex_init(&b->lock, NULL);
   if (err) { return err; }
 
@@ -46,9 +46,7 @@ int barrier_wait(struct barrier *b)
     pthread_cond_wait(&b->notify, &b->lock);
   }
 
-  if (ret == BARRIER_SERIAL_THREAD) {
-    b->barrier_reached = 1;
-  }
+  if (ret == BARRIER_SERIAL_THREAD) { b->barrier_reached = 1; }
 
   if (--b->num_threads == 0) {
     b->barrier_reached = 0;
@@ -56,6 +54,8 @@ int barrier_wait(struct barrier *b)
   }
 
   pthread_mutex_unlock(&b->lock);
+
+  if (ret == BARRIER_SERIAL_THREAD) { pthread_cond_broadcast(&b->notify); }
 
   return ret;
 }

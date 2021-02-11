@@ -17,6 +17,8 @@ int threadpool_init(struct threadpool *tp, size_t num_threads)
     return -1;
   }
 
+  tp->num_threads = num_threads;
+
   for (size_t i = 0; i < num_threads; ++i) {
     err = pthread_create(&tp->threads[i], NULL, taskqueue_basic_worker_func,
                          &tp->queue);
@@ -41,7 +43,6 @@ void threadpool_notify(struct threadpool *tp) { taskqueue_notify(&tp->queue); }
 void threadpool_barrier_task_func(void *arg)
 {
   struct barrier *bar = (struct barrier *)arg;
-
   int ret = barrier_wait(bar);
 
   if (ret == BARRIER_FINAL_THREAD) {
