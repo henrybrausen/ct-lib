@@ -19,24 +19,35 @@ set (CMAKE_C_FLAGS "-Wall")
 set (CMAKE_C_FLAGS_DEBUG "-O0 -g")
 set (CMAKE_C_FLAGS_RELEASE "-O2 -march=native -ftree-vectorize")
 
-set (TARGET_SRC
+set (CT_LIB_SOURCES
   src/pool.c
   src/queue.c
   src/taskqueue.c
   src/barrier.c
   src/threadpool.c
+  )
+
+add_library(ct_lib STATIC ${CT_LIB_SOURCES})
+
+target_include_directories(ct_lib PUBLIC
+  "${PROJECT_SOURCE_DIR}/src"
+  )
+
+target_link_libraries(ct_lib Threads::Threads)
+
+set (NBODY_SOURCES
   src/bhtree.c
   src/nbody.c
   )
 
-add_executable(nbody ${TARGET_SRC})
+add_executable(nbody ${NBODY_SOURCES})
 
 target_include_directories(nbody PUBLIC
   "${PROJECT_BINARY_DIR}"
   "${PROJECT_SOURCE_DIR}/src"
   )
 
-target_link_libraries(nbody Threads::Threads m)
+target_link_libraries(nbody ct_lib m)
 
 #add_custom_command (TARGET nbody POST_BUILD
 #  COMMAND objdump -CSlr nbody > nbody.s
