@@ -39,7 +39,7 @@ int bh_tree_init(struct bh_tree *tree, size_t num_nodes)
 {
   int err;
 
-  if ((err = pool_init(&tree->node_pool, num_nodes, sizeof(struct bh_node))) !=
+  if ((err = pool_init(&tree->node_pool, 10*num_nodes, sizeof(struct bh_node))) !=
       0) {
     return err;
   }

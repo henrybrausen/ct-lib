@@ -9,7 +9,6 @@
 #include <pthread.h>
 #include <stddef.h>
 
-#include "pool.h"
 #include "taskqueue.h"
 
 #define THREADPOOL_DEFAULT_BARRIER_POOLSIZE 8
