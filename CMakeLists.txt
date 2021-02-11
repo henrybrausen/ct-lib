@@ -24,6 +24,7 @@ set (CT_LIB_SOURCES
   src/taskqueue.c
   src/barrier.c
   src/threadpool.c
+  src/tictoc.c
   )
 
 add_library(ct_lib STATIC ${CT_LIB_SOURCES})
