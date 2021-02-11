@@ -40,23 +40,19 @@ void threadpool_notify(struct threadpool *tp) { taskqueue_notify(&tp->queue); }
 
 void threadpool_barrier_task_func(void *arg)
 {
-  struct threadpool_barrier_args *ta = (struct threadpool_barrier_args *)arg;
+  struct barrier *bar = (struct barrier *)arg;
 
-  int ret = barrier_wait(ta->bar);
+  int ret = barrier_wait(bar);
 
   if (ret == BARRIER_FINAL_THREAD) {
     // If we were the final thread to exit the barrier, clean up after ourselves
-    barrier_destroy(ta->bar);
-    free(ta);
+    barrier_destroy(bar);
   }
 }
 
 int threadpool_push_barrier(struct threadpool *tp)
 {
   int err;
-
-  struct threadpool_barrier_args *ta = malloc(sizeof(*ta));
-  if (ta == NULL) { return -1; }
 
   struct barrier *bar = malloc(sizeof(*bar));
   if (bar == NULL) { return -1; }
@@ -66,7 +62,7 @@ int threadpool_push_barrier(struct threadpool *tp)
 
   err = taskqueue_push_n(
       &tp->queue,
-      (struct task){.func = threadpool_barrier_task_func, .arg = ta},
+      (struct task){.func = threadpool_barrier_task_func, .arg = bar},
       tp->num_threads);
   if (err) { return err; }
 

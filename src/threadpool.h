@@ -11,15 +11,6 @@
 
 #include "taskqueue.h"
 
-#define THREADPOOL_DEFAULT_BARRIER_POOLSIZE 8
-
-struct threadpool;
-
-struct threadpool_barrier_args {
-  struct threadpool *tp;
-  struct barrier *bar;
-};
-
 /**
  * \brief Threadpool / worker pool.
  *
