@@ -151,7 +151,7 @@ Functions</h2></td></tr>
 <p>This function loops forever, consuming and executing tasks on the queue. When no work is available, this function will block on <a class="el" href="structtaskqueue.html#af2a8ef81839992c158724cf78e180100" title="Block and wait for work to appear on the queue. ">taskqueue_wait_for_work()</a>. Call <a class="el" href="structtaskqueue.html#a45a832e3fc79f47eedae8aef020a45ac" title="Notify any blocked processes that the queue state has changed. ">taskqueue_notify()</a> to wake up all blocked threads and resume task execution.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">Task</td><td>queue on which worker thread operates (casted to void *) </td></tr>
+    <tr><td class="paramname">qp</td><td>Task queue on which worker thread operates (casted to void *) </td></tr>
   </table>
   </dd>
 </dl>
