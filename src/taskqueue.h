@@ -185,7 +185,7 @@ int taskqueue_notify(struct taskqueue *q);
  * taskqueue_wait_for_work(). Call taskqueue_notify() to wake up all blocked
  * threads and resume task execution.
  *
- * \param Task queue on which worker thread operates (casted to void *)
+ * \param qp Task queue on which worker thread operates (casted to void *)
  */
 void *taskqueue_basic_worker_func(void *qp);
 
