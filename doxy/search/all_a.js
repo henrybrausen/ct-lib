@@ -1,7 +1,6 @@
 var searchData=
 [
   ['task',['task',['../structtask.html',1,'']]],
-  ['task_5farg',['task_arg',['../structtask__arg.html',1,'']]],
   ['task_5fdestroy',['task_destroy',['../structtask.html#a2da227ee9c5c18d0d727a5ec4fa62adc',1,'task']]],
   ['task_5fexecute',['task_execute',['../structtask.html#a330ac360fe9083707a590076d33612ab',1,'task']]],
   ['task_5ffreeze',['task_freeze',['../structtask.html#ad81deaebac66a946d7f2d0da1b8a5cca',1,'task']]],
@@ -22,7 +21,6 @@ var searchData=
   ['threadpool_2eh',['threadpool.h',['../threadpool_8h.html',1,'']]],
   ['threadpool_5finit',['threadpool_init',['../structthreadpool.html#ab92c98b6137e6a3c9f0083ae692e0196',1,'threadpool']]],
   ['threadpool_5fnotify',['threadpool_notify',['../structthreadpool.html#a50143b62d83d638b4af08bb053c6c8ca',1,'threadpool']]],
-  ['threadpool_5fpps_5ftest_2ec',['threadpool_pps_test.c',['../threadpool__pps__test_8c.html',1,'']]],
   ['threadpool_5fpush_5fbarrier',['threadpool_push_barrier',['../structthreadpool.html#a11a329f8e71524e0acabf59f0878e4d4',1,'threadpool']]],
   ['threadpool_5fpush_5ftask',['threadpool_push_task',['../structthreadpool.html#a3f4eabd0279544ba2aae42bba655f0ba',1,'threadpool']]],
   ['threadpool_5fwait',['threadpool_wait',['../structthreadpool.html#ad47220a0f6ae4af1b8ebe73f2d4672a9',1,'threadpool']]],
