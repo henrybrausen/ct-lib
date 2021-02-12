@@ -23,3 +23,7 @@ A synchronization barrier requires that all threads reach the barrier before any
 By default, the worker threads are asleep, and will not consume tasks from the queue. To begin task execution, the application code calls [threadpool_notify()](@ref threadpool_notify) to wake up the worker threads and begin task execution.
 
 Finally, the application code calls [threadpool_wait()](@ref threadpool_wait) to block until all tasks are completed.
+
+## Examples
+- [Parallel Array Sum](@ref sum_example.c)
+
