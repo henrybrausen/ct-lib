@@ -36,6 +36,7 @@ target_include_directories(ct_lib PUBLIC
 target_link_libraries(ct_lib Threads::Threads)
 
 add_subdirectory(tests)
+add_subdirectory(examples EXCLUDE_FROM_ALL)
 
 set (NBODY_SOURCES
   src/bhtree.c
