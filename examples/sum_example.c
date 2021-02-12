@@ -12,6 +12,7 @@
 
 #define ARRAY_LEN 1000000ull
 #define NUM_TASKS 32
+#define NUM_THREADS 4
 
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
@@ -92,7 +93,7 @@ void randomize_array()
 int main(int argc, char *argv[])
 {
   printf("Initializing threadpool ...\n");
-  threadpool_init(&tp, 32);
+  threadpool_init(&tp, NUM_THREADS);
   printf("Done!\n");
 
   printf("Randomizing array ...\n");
