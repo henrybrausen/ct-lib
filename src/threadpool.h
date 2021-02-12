@@ -18,6 +18,10 @@
  *
  * This struct represents a threadpool instance: a collection of worker threads
  * and an associated work queue.
+ *
+ * \example sum_example.c
+ * Example to demonstrate using threadpool to sum an array in parallel.
+ *
  */
 struct threadpool {
   struct taskqueue queue;
