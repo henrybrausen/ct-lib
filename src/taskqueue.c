@@ -169,10 +169,20 @@ size_t taskqueue_count(struct taskqueue *q)
   return count;
 }
 
+void taskqueue_cleanup(void *mutex)
+{
+  pthread_mutex_unlock((pthread_mutex_t *)mutex);
+}
+
 int taskqueue_wait_for_work(struct taskqueue *q, struct task *t)
 {
   int ret;
   pthread_mutex_lock(&q->lock);
+
+  // Prepare a cancellation cleanup handler that unlocks &q->lock.
+  // This way, if the thread calling wait_for_work gets cancelled, the mutex
+  // will be released.
+  pthread_cleanup_push(taskqueue_cleanup, &q->lock);
 
   while (queue_count(&q->queue) == 0) {
     pthread_cond_wait(&q->notify, &q->lock);
@@ -183,7 +193,10 @@ int taskqueue_wait_for_work(struct taskqueue *q, struct task *t)
   else {
     q->num_running += 1;
   }
-  pthread_mutex_unlock(&q->lock);
+
+  // Release mutex.
+  pthread_cleanup_pop(1);
+
   return ret;
 }
 
@@ -191,11 +204,17 @@ void taskqueue_wait_for_complete(struct taskqueue *q)
 {
   pthread_mutex_lock(&q->lock);
 
+  // Prepare a cancellation cleanup handler that unlocks &q->lock.
+  // This way, if the thread calling wait_for_work gets cancelled, the mutex
+  // will be released.
+  pthread_cleanup_push(taskqueue_cleanup, &q->lock);
+
   while (!(queue_count(&q->queue) == 0 && q->num_running == 0)) {
     pthread_cond_wait(&q->notify, &q->lock);
   }
 
-  pthread_mutex_unlock(&q->lock);
+  // Release mutex.
+  pthread_cleanup_pop(1);
 }
 
 int taskqueue_notify(struct taskqueue *q)
