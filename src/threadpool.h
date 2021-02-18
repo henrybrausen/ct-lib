@@ -9,13 +9,8 @@
 #include <pthread.h>
 #include <stddef.h>
 
-#include "task.h"
 #include "queue.h"
-
-enum threadpool_thread_command {
-  THREAD_COMMAND_RUN,
-  THREAD_COMMAND_PAUSE
-};
+#include "task.h"
 
 /**
  * \brief Threadpool / worker pool.
@@ -52,8 +47,11 @@ struct threadpool {
 int threadpool_init(struct threadpool *tp, size_t num_threads);
 
 /**
- * \brief Destroy threadpool, freeing resources and leaving threadpool in an uninitialized state.
+ * \brief Destroy threadpool, freeing resources and leaving threadpool in an
+ * uninitialized state.
  * \memberof threadpool
+ *
+ * The thread pool must not have any pending or running tasks.
  *
  * \param tp The thread pool.
  * \return 0 on success, non-zero on failure.
@@ -91,23 +89,13 @@ size_t threadpool_get_num_threads(struct threadpool *tp);
  * \memberof threadpool
  *
  * Calling threadpool_notify() wakes up any processes that are blocked in calls
- * to threadpool_wait_for_work() or threadpool_wait_for_complete(). These
+ * to threadpool_wait_for_work_() or threadpool_wait_for_complete_(). These
  * processes then re-evaluate the queue state, going back to sleep, or returning
  * depending on the outcome.
  *
  * \param tp The thread pool.
  */
 int threadpool_notify(struct threadpool *tp);
-
-/**
- * \brief Resize threadpool to num_threads threads.
- * \memberof threadpool
- *
- * \param tp The thread pool
- * \param num_threads New number of threads in pool
- * \return 0 on success, non-zero on failure.
- */
-int threadpool_set_num_threads(struct threadpool *tp, size_t num_threads);
 
 /**
  * \brief Get number of pending tasks.
