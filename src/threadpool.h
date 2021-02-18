@@ -1,6 +1,6 @@
 /**
  * \file threadpool.h
- * \brief Basic thread / worker pool implementation.
+ * \brief Basic thread / worker pool.
  */
 
 #ifndef THREADPOOL_H
@@ -79,45 +79,12 @@ void threadpool_wait(struct threadpool *tp);
 int threadpool_push_task(struct threadpool *tp, struct task t);
 
 /**
- * \brief Queue up N identical tasks for execution.
- * \memberof threadpool
- *
- * \param tp The thread pool.
- * \param t Task to add to queue.
- * \param n Number of copies to push to task queue.
- * \return 0 on success, non-zero on failure.
- */
-int threadpool_push_n(struct threadpool *tp, struct task t, size_t n);
-
-/**
  * \brief Get number of threads currently in the threadpool.
  * \memberof threadpool
  *
  * \param tp The thread pool.
  */
 size_t threadpool_get_num_threads(struct threadpool *tp);
-
-/**
- * \brief Block and wait for work to appear on the queue.
- * \memberof threadpool
- *
- * If there is a pending task on the queue, this function pops the task, and
- * stores it at the location pointed to by t immediately. If no task is pending,
- * this function blocks until there is a pending task and the queue is notified.
- *
- * \param tp The thread pool.
- * \param t Pointer at which to store the popped task.
- * \return 0 on success, non-zero on failure.
- */
-int threadpool_wait_for_work(struct threadpool *tp, struct task *t);
-
-/**
- * \brief Signal that a running task has completed.
- * \memberof threadpool
- *
- * \param tp The thread pool.
- */
-void threadpool_task_complete(struct threadpool *tp);
 
 /**
  * \brief Notify any blocked processes that the threadpool state has changed.
@@ -163,18 +130,6 @@ size_t threadpool_num_pending(struct threadpool *tp);
  * \return 0 on success, non-zero on failure.
  */
 int threadpool_push_barrier(struct threadpool *tp);
-
-/**
- * \brief Worker thread function for use with thread pool.
- *
- * This function loops forever, consuming and executing tasks on the queue.
- * When no work is available, this function will block on
- * threadpool_wait_for_work(). Call threadpool_notify() to wake up all blocked
- * threads and resume task execution.
- *
- * \param tp Thread pool to which worker thread belongs (casted to void *)
- */
-void *threadpool_worker_func(void *qp);
 
 #endif // THREADPOOL_H
 
