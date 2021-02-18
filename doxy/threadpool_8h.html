@@ -87,18 +87,27 @@ $(document).ready(function(){initNavTree('threadpool_8h.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p>Basic thread / worker pool implementation.  
+<p>Basic thread / worker pool.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;pthread.h&gt;</code><br />
 <code>#include &lt;stddef.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="taskqueue_8h_source.html">taskqueue.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="queue_8h_source.html">queue.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="task_8h_source.html">task.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for threadpool.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="threadpool_8h__incl.png" border="0" usemap="#src_2threadpool_8h" alt=""/></div>
 <map name="src_2threadpool_8h" id="src_2threadpool_8h">
-<area shape="rect" id="node4" href="taskqueue_8h.html" title="A concurrent task queue for delegation of generic tasks to worker threads. " alt="" coords="81,80,174,107"/>
-<area shape="rect" id="node5" href="queue_8h.html" title="Simple linked&#45;list FIFO implementation. " alt="" coords="157,155,225,181"/>
+<area shape="rect" id="node4" href="queue_8h.html" title="Simple linked&#45;list FIFO implementation. " alt="" coords="157,80,225,107"/>
+<area shape="rect" id="node5" href="task_8h.html" title="A single task that can be scheduled for execution by a threadpool. " alt="" coords="250,80,309,107"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="threadpool_8h__dep__incl.png" border="0" usemap="#src_2threadpool_8hdep" alt=""/></div>
+<map name="src_2threadpool_8hdep" id="src_2threadpool_8hdep">
+<area shape="rect" id="node2" href="threadpool_8c.html" title="Implementation of threadpool, including private methods. " alt="" coords="5,80,120,107"/>
 </map>
 </div>
 </div>
@@ -111,7 +120,7 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Basic thread / worker pool implementation. </p>
+<div class="textblock"><p>Basic thread / worker pool. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

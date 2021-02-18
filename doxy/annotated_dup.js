@@ -10,6 +10,5 @@ var annotated_dup =
     [ "queue", "structqueue.html", "structqueue" ],
     [ "queue_entry", "structqueue__entry.html", "structqueue__entry" ],
     [ "task", "structtask.html", "structtask" ],
-    [ "taskqueue", "structtaskqueue.html", "structtaskqueue" ],
     [ "threadpool", "structthreadpool.html", "structthreadpool" ]
 ];

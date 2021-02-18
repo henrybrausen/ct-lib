@@ -9,7 +9,10 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
       [ "queue_entry", "structqueue__entry.html", "structqueue__entry" ],
       [ "queue", "structqueue.html", "structqueue" ]
     ] ],
-    [ "taskqueue.h", "taskqueue_8h.html", "taskqueue_8h" ],
+    [ "task.h", "task_8h.html", [
+      [ "task", "structtask.html", "structtask" ]
+    ] ],
+    [ "threadpool.c", "threadpool_8c.html", "threadpool_8c" ],
     [ "threadpool.h", "threadpool_8h.html", [
       [ "threadpool", "structthreadpool.html", "structthreadpool" ]
     ] ],

@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <p>In this diagram, the main application thread calls <a class="el" href="structthreadpool.html#a3f4eabd0279544ba2aae42bba655f0ba">threadpool_push_task()</a> to queue up a number of tasks for execution.</p>
 <p>The threadpool manages a number of worker threads. Each worker thread consumes tasks from the list of queued tasks. The tasks are then executed in parallel.</p>
 <p>The main application thread also pushes a synchronization barrier onto the queue by calling <a class="el" href="structthreadpool.html#a11a329f8e71524e0acabf59f0878e4d4">threadpool_push_barrier()</a>. A synchronization barrier requires that all threads reach the barrier before any given thread is allowed to continue consuming work from the queue.</p>
-<p>By default, the worker threads are asleep, and will not consume tasks from the queue. To begin task execution, the application code calls <a class="el" href="structthreadpool.html#a50143b62d83d638b4af08bb053c6c8ca">threadpool_notify()</a> to wake up the worker threads and begin task execution.</p>
+<p>By default, the worker threads are asleep, and will not consume tasks from the queue. To begin task execution, the application code calls <a class="el" href="structthreadpool.html#a4440599f34e8be0a1f9c549cc0986c6d">threadpool_notify()</a> to wake up the worker threads and begin task execution.</p>
 <p>Finally, the application code calls <a class="el" href="structthreadpool.html#ad47220a0f6ae4af1b8ebe73f2d4672a9">threadpool_wait()</a> to block until all tasks are completed.</p>
 <h2>Examples</h2>
 <ul>

@@ -1,4 +1,4 @@
-<map id="src/queue.h" name="src/queue.h">
+<map id="src/task.h" name="src/task.h">
 <area shape="rect" id="node2" href="$threadpool_8h.html" title="Basic thread / worker pool. " alt="" coords="5,80,120,107"/>
 <area shape="rect" id="node3" href="$threadpool_8c.html" title="Implementation of threadpool, including private methods. " alt="" coords="52,155,167,181"/>
 </map>
