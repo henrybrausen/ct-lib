@@ -21,10 +21,10 @@ set (CMAKE_C_FLAGS "-Wall")
 set (CT_LIB_SOURCES
   src/pool.c
   src/queue.c
-  src/taskqueue.c
   src/barrier.c
   src/threadpool.c
   src/tictoc.c
+  src/task.c
   )
 
 add_library(ct_lib STATIC ${CT_LIB_SOURCES})

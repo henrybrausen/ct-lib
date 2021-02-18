@@ -10,7 +10,6 @@
 
 #include "bhtree.h"
 #include "pool.h"
-#include "taskqueue.h"
 #include "threadpool.h"
 
 // N-Body Simulation Example
