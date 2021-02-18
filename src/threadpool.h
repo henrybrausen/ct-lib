@@ -82,7 +82,7 @@ int threadpool_push_task(struct threadpool *tp, struct task t);
  *
  * \param tp The thread pool.
  */
-size_t threadpool_get_num_threads(struct threadpool *tp);
+size_t threadpool_num_threads(struct threadpool *tp);
 
 /**
  * \brief Notify any blocked processes that the threadpool state has changed.

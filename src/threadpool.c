@@ -326,7 +326,7 @@ locked_err:
   return err;
 }
 
-size_t threadpool_get_num_threads(struct threadpool *tp)
+size_t threadpool_num_threads(struct threadpool *tp)
 {
   size_t ret;
   pthread_mutex_lock(&tp->lock);
