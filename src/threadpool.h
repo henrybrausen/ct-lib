@@ -11,6 +11,13 @@
 
 #include "queue.h"
 #include "task.h"
+#include "error.h"
+
+enum threadpool_state {
+  THREADPOOL_RUNNING,
+  THREADPOOL_PAUSED,
+  THREADPOOL_ERROR
+};
 
 /**
  * \brief Threadpool / worker pool.
@@ -34,6 +41,8 @@ struct threadpool {
 
   pthread_mutex_t lock;
   pthread_cond_t notify;
+
+  enum threadpool_state state;
 };
 
 /**
@@ -44,7 +53,7 @@ struct threadpool {
  * \param num_threads Number of worker threads to create in the pool.
  * \return 0 on success, non-zero on failure.
  */
-int threadpool_init(struct threadpool *tp, size_t num_threads);
+enum ct_err threadpool_init(struct threadpool *tp, size_t num_threads);
 
 /**
  * \brief Destroy threadpool, freeing resources and leaving threadpool in an
@@ -56,7 +65,7 @@ int threadpool_init(struct threadpool *tp, size_t num_threads);
  * \param tp The thread pool.
  * \return 0 on success, non-zero on failure.
  */
-int threadpool_destroy(struct threadpool *tp);
+enum ct_err threadpool_destroy(struct threadpool *tp);
 
 /**
  * \brief Block until worker threads complete all queued tasks.
@@ -74,7 +83,7 @@ void threadpool_wait(struct threadpool *tp);
  * \param t Task to add to queue.
  * \return 0 on success, non-zero on failure.
  */
-int threadpool_push_task(struct threadpool *tp, struct task t);
+enum ct_err threadpool_push_task(struct threadpool *tp, struct task t);
 
 /**
  * \brief Get number of threads currently in the threadpool.
@@ -95,7 +104,7 @@ size_t threadpool_num_threads(struct threadpool *tp);
  *
  * \param tp The thread pool.
  */
-int threadpool_notify(struct threadpool *tp);
+void threadpool_notify(struct threadpool *tp);
 
 /**
  * \brief Get number of pending tasks.
@@ -117,7 +126,7 @@ size_t threadpool_num_pending(struct threadpool *tp);
  * \param tp The thread pool.
  * \return 0 on success, non-zero on failure.
  */
-int threadpool_push_barrier(struct threadpool *tp);
+enum ct_err threadpool_push_barrier(struct threadpool *tp);
 
 #endif // THREADPOOL_H
 

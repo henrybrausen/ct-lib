@@ -1,17 +1,18 @@
 #include "queue.h"
+#include "error.h"
 
 #include <stddef.h>
 #include <stdlib.h>
 
-int queue_init(struct queue *q)
+enum ct_err queue_init(struct queue *q)
 {
   q->head = q->tail = NULL;
   q->count = 0;
 
-  return 0;
+  return CT_SUCCESS;
 }
 
-int queue_destroy(struct queue *q)
+enum ct_err queue_destroy(struct queue *q)
 {
   struct queue_entry *cur = q->head;
   struct queue_entry *next;
@@ -22,14 +23,14 @@ int queue_destroy(struct queue *q)
     cur = next;
   }
 
-  return 0;
+  return CT_SUCCESS;
 }
 
-int queue_push(struct queue *q, void *data)
+enum ct_err queue_push(struct queue *q, void *data)
 {
   struct queue_entry *e = malloc(sizeof(*e));
 
-  if (e == NULL) { return -1; }
+  if (e == NULL) { return CT_EMALLOC; }
 
   e->next = q->head;
   e->prev = NULL;
@@ -43,14 +44,12 @@ int queue_push(struct queue *q, void *data)
 
   q->count += 1;
 
-  return 0;
+  return CT_SUCCESS;
 }
 
-int queue_pop(struct queue *q, void **data)
+enum ct_err queue_pop(struct queue *q, void **data)
 {
-  if (data == NULL) { return -1; }
-
-  if (q->count == 0) { return -1; }
+  if (q->count == 0) { return CT_EQUEUE_EMPTY; }
 
   struct queue_entry *e = q->tail;
 
@@ -64,11 +63,13 @@ int queue_pop(struct queue *q, void **data)
 
   q->count--;
 
-  *data = e->data;
+  if (data != NULL) {
+    *data = e->data;
+  }
 
   free(e);
 
-  return 0;
+  return CT_SUCCESS;
 }
 
 size_t queue_count(struct queue *q) { return q->count; }

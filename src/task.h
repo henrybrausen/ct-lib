@@ -6,6 +6,8 @@
 #ifndef TASK_H
 #define TASK_H
 
+#include "error.h"
+
 #include <stddef.h>
 
 /**
@@ -49,8 +51,7 @@ void task_destroy(struct task *t);
  * \param t Task to freeze.
  * \return 0 on success, non-zero on failure.
  */
-int task_freeze(struct task *t);
-
+enum ct_err task_freeze(struct task *t);
 
 #endif // TASK_H
 

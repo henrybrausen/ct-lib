@@ -6,6 +6,8 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include "error.h"
+
 #include <stddef.h>
 
 /**
@@ -45,7 +47,7 @@ struct queue {
  * \param q Pointer to queue to initialize.
  * \return 0 on success, non-zero on failure.
  */
-int queue_init(struct queue *q);
+enum ct_err queue_init(struct queue *q);
 
 /**
  * \brief Destroy queue referred to by q, leaving it uninitialized.
@@ -54,7 +56,7 @@ int queue_init(struct queue *q);
  * \param q Pointer to queue to destroy.
  * \return 0 on success, non-zero on error.
  */
-int queue_destroy(struct queue *q);
+enum ct_err queue_destroy(struct queue *q);
 
 /**
  * \brief Push a new element into the queue.
@@ -64,7 +66,7 @@ int queue_destroy(struct queue *q);
  * \param data Data to push.
  * \return 0 on success, non-zero on failure
  */
-int queue_push(struct queue *q, void *data);
+enum ct_err queue_push(struct queue *q, void *data);
 
 /**
  * \brief Retrieve and pop an element from the queue.
@@ -74,7 +76,7 @@ int queue_push(struct queue *q, void *data);
  * \param t Pointer at which to store pointer to retrieved data.
  * \return 0 on success, non-zero on failure
  */
-int queue_pop(struct queue *q, void **data);
+enum ct_err queue_pop(struct queue *q, void **data);
 
 /**
  * \brief Get number of elements in the queue.

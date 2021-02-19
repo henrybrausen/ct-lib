@@ -24,6 +24,7 @@ set (CT_LIB_SOURCES
   src/barrier.c
   src/threadpool.c
   src/tictoc.c
+  src/error.c
   src/task.c
   )
 

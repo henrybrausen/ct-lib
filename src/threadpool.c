@@ -5,6 +5,7 @@
 
 #include "threadpool.h"
 #include "barrier.h"
+#include "error.h"
 #include "queue.h"
 #include "task.h"
 
@@ -12,15 +13,15 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-int threadpool_push_n_(struct threadpool *tp, struct task t, size_t n);
-int threadpool_pop_locked_(struct threadpool *tp, struct task *t);
+enum ct_err threadpool_push_n_(struct threadpool *tp, struct task t, size_t n);
+enum ct_err threadpool_pop_locked_(struct threadpool *tp, struct task *t);
 void threadpool_cleanup_(void *mutex);
-int threadpool_wait_for_work_(struct threadpool *tp, struct task *t);
+enum ct_err threadpool_wait_for_work_(struct threadpool *tp, struct task *t);
 void threadpool_task_complete_(struct threadpool *tp);
 void threadpool_barrier_task_func_(void *arg);
 void *threadpool_worker_func_(void *tpp);
 
-int threadpool_init(struct threadpool *tp, size_t num_threads)
+enum ct_err threadpool_init(struct threadpool *tp, size_t num_threads)
 {
   int err;
 
@@ -28,26 +29,27 @@ int threadpool_init(struct threadpool *tp, size_t num_threads)
   if (err) { return err; }
 
   err = pthread_mutex_init(&tp->lock, NULL);
-  if (err) { return err; }
+  if (err) { return CT_EMUTEX_INIT; }
 
   err = pthread_cond_init(&tp->notify, NULL);
-  if (err) { return err; }
+  if (err) { return CT_ECOND_INIT; }
 
   if ((tp->threads = malloc(num_threads * sizeof(*tp->threads))) == NULL) {
-    return -1;
+    return CT_EMALLOC;
   }
 
   tp->num_threads = num_threads;
 
+  // Spawn threads
   for (size_t i = 0; i < num_threads; ++i) {
     err = pthread_create(&tp->threads[i], NULL, threadpool_worker_func_, tp);
-    if (err) { return err; }
+    if (err) { return CT_ETHREAD_CREATE; }
   }
 
-  return 0;
+  return CT_SUCCESS;
 }
 
-int threadpool_destroy(struct threadpool *tp)
+enum ct_err threadpool_destroy(struct threadpool *tp)
 {
   int err;
 
@@ -55,13 +57,13 @@ int threadpool_destroy(struct threadpool *tp)
 
   // There must not be any pending tasks.
   if (queue_count(&tp->taskqueue) != 0) {
-    err = 1;
+    err = CT_EPENDING_TASKS;
     goto locked_err;
   }
 
   // There must not be any running tasks.
   if (tp->num_running != 0) {
-    err = 1;
+    err = CT_ERUNNING_TASKS;
     goto locked_err;
   }
 
@@ -77,12 +79,12 @@ int threadpool_destroy(struct threadpool *tp)
   if (err) { return err; }
 
   err = pthread_cond_destroy(&tp->notify);
-  if (err) { return err; }
+  if (err) { return CT_ECOND_DESTROY; }
 
   err = pthread_mutex_destroy(&tp->lock);
-  if (err) { return err; }
+  if (err) { return CT_EMUTEX_DESTROY; }
 
-  return 0;
+  return CT_SUCCESS;
 
 locked_err:
   pthread_mutex_unlock(&tp->lock);
@@ -106,12 +108,12 @@ void threadpool_wait(struct threadpool *tp)
   pthread_cleanup_pop(1);
 }
 
-int threadpool_push_task(struct threadpool *tp, struct task t)
+enum ct_err threadpool_push_task(struct threadpool *tp, struct task t)
 {
   int err;
 
   struct task *t_new = malloc(sizeof(*t_new));
-  if (t_new == NULL) { return -1; }
+  if (t_new == NULL) { return CT_EMALLOC; }
 
   *t_new = t;
 
@@ -136,9 +138,9 @@ size_t threadpool_num_threads(struct threadpool *tp)
   return ret;
 }
 
-int threadpool_notify(struct threadpool *tp)
+void threadpool_notify(struct threadpool *tp)
 {
-  return pthread_cond_broadcast(&tp->notify);
+  pthread_cond_broadcast(&tp->notify);
 }
 
 size_t threadpool_num_pending(struct threadpool *tp)
@@ -154,12 +156,12 @@ size_t threadpool_num_pending(struct threadpool *tp)
   return count;
 }
 
-int threadpool_push_barrier(struct threadpool *tp)
+enum ct_err threadpool_push_barrier(struct threadpool *tp)
 {
   int err;
 
   struct barrier *bar = malloc(sizeof(*bar));
-  if (bar == NULL) { return -1; }
+  if (bar == NULL) { return CT_EMALLOC; }
 
   err = barrier_init(bar, tp->num_threads);
   if (err) { return err; }
@@ -169,7 +171,7 @@ int threadpool_push_barrier(struct threadpool *tp)
       tp->num_threads);
   if (err) { return err; }
 
-  return 0;
+  return CT_SUCCESS;
 }
 
 /**
@@ -182,7 +184,7 @@ int threadpool_push_barrier(struct threadpool *tp)
  * \param n Number of copies to push to task queue.
  * \return 0 on success, non-zero on failure.
  */
-int threadpool_push_n_(struct threadpool *tp, struct task t, size_t n)
+enum ct_err threadpool_push_n_(struct threadpool *tp, struct task t, size_t n)
 {
   int err;
 
@@ -191,7 +193,7 @@ int threadpool_push_n_(struct threadpool *tp, struct task t, size_t n)
   for (size_t i = 0; i < n; ++i) {
     struct task *t_new = malloc(sizeof(*t_new));
     if (t_new == NULL) {
-      err = -1;
+      err = CT_EMALLOC;
       break;
     }
 
@@ -210,32 +212,34 @@ int threadpool_push_n_(struct threadpool *tp, struct task t, size_t n)
 }
 
 /**
- * \brief Pop a task from the thread pool's task queue. Assumes thread pool has been locked by the caller.
- * \memberof threadpool
- * \private
+ * \brief Pop a task from the thread pool's task queue. Assumes thread pool has
+ * been locked by the caller. \memberof threadpool \private
  *
  * \param tp The thread pool.
- * \param t Pointer to storage for popped task.
+ * \param t Pointer to storage for popped task. If t == NULL, discard popped
+ * task.
  * \return 0 on success, non-zero on failure.
  */
-int threadpool_pop_locked_(struct threadpool *tp, struct task *t)
+enum ct_err threadpool_pop_locked_(struct threadpool *tp, struct task *t)
 {
   int err;
 
-  if (t == NULL) { return -1; }
-
-  if (queue_count(&tp->taskqueue) == 0) { return -1; }
+  if (queue_count(&tp->taskqueue) == 0) { return CT_EQUEUE_EMPTY; }
 
   struct task *tsk;
 
   err = queue_pop(&tp->taskqueue, (void **)&tsk);
   if (err) { return err; }
 
-  *t = *tsk;
+  // If we are discarding the task, make sure to free any associated resources.
+  if (t == NULL) { task_destroy(tsk); }
+  else {
+    *t = *tsk;
+  }
 
   free(tsk);
 
-  return 0;
+  return CT_SUCCESS;
 }
 
 /**
@@ -259,7 +263,7 @@ void threadpool_cleanup_(void *mutex)
  * \param t Pointer at which to store the popped task.
  * \return 0 on success, non-zero on failure.
  */
-int threadpool_wait_for_work_(struct threadpool *tp, struct task *t)
+enum ct_err threadpool_wait_for_work_(struct threadpool *tp, struct task *t)
 {
   int ret;
   pthread_mutex_lock(&tp->lock);
@@ -345,5 +349,4 @@ void *threadpool_worker_func_(void *tpp)
   }
   return (void *)0;
 }
-
 
