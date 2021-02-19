@@ -68,7 +68,7 @@ double compute_sum()
   }
 
   // Begin computation.
-  threadpool_notify(&tp);
+  threadpool_run(&tp);
 
   // Wait for all threads to complete.
   threadpool_wait(&tp);

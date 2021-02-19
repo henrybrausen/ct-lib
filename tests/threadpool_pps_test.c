@@ -113,7 +113,7 @@ void run_pps()
     threadpool_push_barrier(&tp);
   }
   printf("Running ...\n");
-  threadpool_notify(&tp);
+  threadpool_run(&tp);
   threadpool_wait(&tp);
 
   array[NUM_ELEMS - 1] = 0;
@@ -124,7 +124,7 @@ void run_pps()
     threadpool_push_barrier(&tp);
   }
   printf("Running ...\n");
-  threadpool_notify(&tp);
+  threadpool_run(&tp);
   threadpool_wait(&tp);
 }
 
@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
 
   printf("Randomizing array...\n");
   tic();
-  threadpool_notify(&tp);
+  threadpool_run(&tp);
   threadpool_wait(&tp);
   printf("Done! %.3f ms\n", toc());
 

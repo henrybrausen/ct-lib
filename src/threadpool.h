@@ -15,8 +15,7 @@
 
 enum threadpool_state {
   THREADPOOL_RUNNING,
-  THREADPOOL_PAUSED,
-  THREADPOOL_ERROR
+  THREADPOOL_PAUSED
 };
 
 /**
@@ -68,8 +67,27 @@ enum ct_err threadpool_init(struct threadpool *tp, size_t num_threads);
 enum ct_err threadpool_destroy(struct threadpool *tp);
 
 /**
+ * \brief Signal thread pool to begin task execution.
+ * \memberof threadpool
+ * 
+ * \param tp The thread pool.
+ */
+void threadpool_run(struct threadpool *tp);
+
+/**
+ * \brief Signal thread pool to pause task execution.
+ * \memberof threadpool
+ *
+ * \param tp The thread pool.
+ */
+void threadpool_pause(struct threadpool *tp);
+
+/**
  * \brief Block until worker threads complete all queued tasks.
  * \memberof threadpool
+ *
+ * Note: This function blocks until all tasks are completed. If the threadpool
+ * is paused, threadpool_wait() will continue to block!
  *
  * \param tp The thread pool.
  */

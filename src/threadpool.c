@@ -38,6 +38,9 @@ enum ct_err threadpool_init(struct threadpool *tp, size_t num_threads)
     return CT_EMALLOC;
   }
 
+
+  tp->state = THREADPOOL_RUNNING;
+
   tp->num_threads = num_threads;
 
   // Spawn threads
@@ -89,6 +92,26 @@ enum ct_err threadpool_destroy(struct threadpool *tp)
 locked_err:
   pthread_mutex_unlock(&tp->lock);
   return err;
+}
+
+void threadpool_run(struct threadpool *tp)
+{
+  pthread_mutex_lock(&tp->lock);
+
+  if (queue_count(&tp->taskqueue) != 0) { tp->state = THREADPOOL_RUNNING; }
+
+  pthread_mutex_unlock(&tp->lock);
+
+  threadpool_notify(tp);
+}
+
+void threadpool_pause(struct threadpool *tp)
+{
+  pthread_mutex_lock(&tp->lock);
+
+  tp->state = THREADPOOL_PAUSED;
+
+  pthread_mutex_unlock(&tp->lock);
 }
 
 void threadpool_wait(struct threadpool *tp)
@@ -273,7 +296,7 @@ enum ct_err threadpool_wait_for_work_(struct threadpool *tp, struct task *t)
   // will be released.
   pthread_cleanup_push(threadpool_cleanup_, &tp->lock);
 
-  while (queue_count(&tp->taskqueue) == 0) {
+  while (tp->state != THREADPOOL_RUNNING || queue_count(&tp->taskqueue) == 0) {
     pthread_cond_wait(&tp->notify, &tp->lock);
   }
   if ((ret = threadpool_pop_locked_(tp, t)) != 0) {
@@ -299,8 +322,15 @@ enum ct_err threadpool_wait_for_work_(struct threadpool *tp, struct task *t)
 void threadpool_task_complete_(struct threadpool *tp)
 {
   pthread_mutex_lock(&tp->lock);
+
   tp->num_running -= 1;
+
+  if (tp->num_running == 0 && queue_count(&tp->taskqueue) == 0) {
+    tp->state = THREADPOOL_PAUSED;
+  }
+
   pthread_mutex_unlock(&tp->lock);
+
   threadpool_notify(tp);
 }
 
