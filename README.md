@@ -1,7 +1,10 @@
 # ct-lib
 Threadpool library written in C using POSIX APIs.
 
-# Example
+## Documentation
+API documentation and examples are available at https://hbrausen.github.io/ct-lib/doxy/
+
+## Example
 
 ```c++
 /**
@@ -113,6 +116,3 @@ int main(int argc, char *argv[])
   return 0;
 }
 ```
-
-# Documentation
-API documentation and examples are available at https://hbrausen.github.io/ct-lib/doxy/
