@@ -1,8 +1,8 @@
-N-Body Solver {#mainpage}
+ct-lib {#mainpage}
 =========================
 
 ## Introduction
-This project implements a fast, parallel n-body solver in C, along with a number of useful threading / parallelization constructs.
+This project implements a number of useful threading and parallelization constructs in C.
 
 ## Threading constructs
 The major abstraction provided by the threading constructs in this library is the [threadpool](@ref threadpool).
