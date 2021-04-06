@@ -1,4 +1,0 @@
-<map id="taskqueue" name="taskqueue">
-<area shape="rect" id="node2" href="$structqueue.html" title="Simple linked&#45;list based FIFO. " alt="" coords="23,112,81,139"/>
-<area shape="rect" id="node3" href="$structqueue__entry.html" title="A single entry in the FIFO. " alt="" coords="5,7,99,33"/>
-</map>

@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "N-Body Solver", "index.html", [
+  [ "ct-lib", "index.html", [
     [ "Todo List", "todo.html", null ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
@@ -15,7 +15,8 @@ var NAVTREE =
       [ "File List", "files.html", "files" ],
       [ "Globals", "globals.html", [
         [ "All", "globals.html", null ],
-        [ "Functions", "globals_func.html", null ]
+        [ "Functions", "globals_func.html", null ],
+        [ "Enumerations", "globals_enum.html", null ]
       ] ]
     ] ],
     [ "Examples", "examples.html", "examples" ]

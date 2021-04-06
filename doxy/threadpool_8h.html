@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>N-Body Solver: src/threadpool.h File Reference</title>
+<title>ct-lib: src/threadpool.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,9 +28,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">N-Body Solver
+   <div id="projectname">ct-lib
    </div>
-   <div id="projectbrief">Fast N-Body Solver in C using POSIX APIs</div>
+   <div id="projectbrief">Threadpool library in C using POSIX APIs</div>
   </td>
  </tr>
  </tbody>
@@ -81,7 +81,8 @@ $(document).ready(function(){initNavTree('threadpool_8h.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Data Structures</a>  </div>
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
 <div class="title">threadpool.h File Reference</div>  </div>
 </div><!--header-->
@@ -93,13 +94,15 @@ $(document).ready(function(){initNavTree('threadpool_8h.html','');});
 <code>#include &lt;stddef.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="queue_8h_source.html">queue.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="task_8h_source.html">task.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="error_8h_source.html">error.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for threadpool.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="threadpool_8h__incl.png" border="0" usemap="#src_2threadpool_8h" alt=""/></div>
 <map name="src_2threadpool_8h" id="src_2threadpool_8h">
-<area shape="rect" id="node4" href="queue_8h.html" title="Simple linked&#45;list FIFO implementation. " alt="" coords="157,80,225,107"/>
-<area shape="rect" id="node5" href="task_8h.html" title="A single task that can be scheduled for execution by a threadpool. " alt="" coords="250,80,309,107"/>
+<area shape="rect" id="node4" href="queue_8h.html" title="Simple linked&#45;list FIFO implementation. " alt="" coords="240,80,308,107"/>
+<area shape="rect" id="node5" href="error_8h.html" title="Error return codes and associated utility functions. " alt="" coords="245,155,303,181"/>
+<area shape="rect" id="node6" href="task_8h.html" title="A single task that can be scheduled for execution by a threadpool. " alt="" coords="157,80,215,107"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -118,6 +121,13 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html">threadpool</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Threadpool / worker pool.  <a href="structthreadpool.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:aec59a11b8ac439453eb74a1ab52fecab"><td class="memItemLeft" align="right" valign="top"><a id="aec59a11b8ac439453eb74a1ab52fecab"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>threadpool_state</b> { <b>THREADPOOL_RUNNING</b>, 
+<b>THREADPOOL_PAUSED</b>
+ }</td></tr>
+<tr class="separator:aec59a11b8ac439453eb74a1ab52fecab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Basic thread / worker pool. </p>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>N-Body Solver: Data Fields - Functions</title>
+<title>ct-lib: Data Fields - Functions</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,9 +28,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">N-Body Solver
+   <div id="projectname">ct-lib
    </div>
-   <div id="projectbrief">Fast N-Body Solver in C using POSIX APIs</div>
+   <div id="projectbrief">Threadpool library in C using POSIX APIs</div>
   </td>
  </tr>
  </tbody>
@@ -80,7 +80,9 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 </div>
 
 <div class="contents">
-&#160;<ul>
+&#160;
+
+<h3><a id="index_b"></a>- b -</h3><ul>
 <li>barrier_destroy()
 : <a class="el" href="structbarrier.html#a6feefba5b3b2987d345ef424727e443e">barrier</a>
 </li>
@@ -90,6 +92,10 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>barrier_wait()
 : <a class="el" href="structbarrier.html#a0b0871700c9d63ddeb5d83309920bd34">barrier</a>
 </li>
+</ul>
+
+
+<h3><a id="index_p"></a>- p -</h3><ul>
 <li>pool_acquire()
 : <a class="el" href="structpool.html#a71fed1550bf76718bc85e4b405934143">pool</a>
 </li>
@@ -105,21 +111,29 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <li>pool_releaseall()
 : <a class="el" href="structpool.html#a504bfeafe1908a87202c68b4792cfcff">pool</a>
 </li>
+</ul>
+
+
+<h3><a id="index_q"></a>- q -</h3><ul>
 <li>queue_count()
 : <a class="el" href="structqueue.html#a8594638ad09862643a956248d3028041">queue</a>
 </li>
 <li>queue_destroy()
-: <a class="el" href="structqueue.html#a460608731da02da4399c15401a21780e">queue</a>
+: <a class="el" href="structqueue.html#ab2b784d1804ea94967a5f573a8b4d682">queue</a>
 </li>
 <li>queue_init()
-: <a class="el" href="structqueue.html#a081184c88eec107f4be43b31fd87560f">queue</a>
+: <a class="el" href="structqueue.html#aee8e939232bffb7af9cb91ece5ff5fa3">queue</a>
 </li>
 <li>queue_pop()
-: <a class="el" href="structqueue.html#a91ef898ae2655c401b43ce2c41f023dd">queue</a>
+: <a class="el" href="structqueue.html#a10518d96187920ae10e37f2fda7f1640">queue</a>
 </li>
 <li>queue_push()
-: <a class="el" href="structqueue.html#a663c9486702bcf8593004e80b0eb3faa">queue</a>
+: <a class="el" href="structqueue.html#a1eb7c456355454a8a5b39d13e85612b4">queue</a>
 </li>
+</ul>
+
+
+<h3><a id="index_t"></a>- t -</h3><ul>
 <li>task_destroy()
 : <a class="el" href="structtask.html#a2da227ee9c5c18d0d727a5ec4fa62adc">task</a>
 </li>
@@ -127,37 +141,43 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="structtask.html#a330ac360fe9083707a590076d33612ab">task</a>
 </li>
 <li>task_freeze()
-: <a class="el" href="structtask.html#ad81deaebac66a946d7f2d0da1b8a5cca">task</a>
+: <a class="el" href="structtask.html#a53a877ac59c96839c681a765abfd5136">task</a>
 </li>
 <li>threadpool_barrier_task_func_()
 : <a class="el" href="structthreadpool.html#a5472d9b2de38852cd69b7a721861eba0">threadpool</a>
 </li>
 <li>threadpool_destroy()
-: <a class="el" href="structthreadpool.html#aecd3104bddef3a9e26e14142e7226082">threadpool</a>
-</li>
-<li>threadpool_get_num_threads()
-: <a class="el" href="structthreadpool.html#a92faa073edf144e866cd9baae488f288">threadpool</a>
+: <a class="el" href="structthreadpool.html#aa4d8d8a7a4c74128929039cc3af50370">threadpool</a>
 </li>
 <li>threadpool_init()
-: <a class="el" href="structthreadpool.html#ab92c98b6137e6a3c9f0083ae692e0196">threadpool</a>
+: <a class="el" href="structthreadpool.html#a5722f96fa33167571432f26aaf6fafcd">threadpool</a>
 </li>
 <li>threadpool_notify()
-: <a class="el" href="structthreadpool.html#a4440599f34e8be0a1f9c549cc0986c6d">threadpool</a>
+: <a class="el" href="structthreadpool.html#a50143b62d83d638b4af08bb053c6c8ca">threadpool</a>
 </li>
 <li>threadpool_num_pending()
 : <a class="el" href="structthreadpool.html#a09ce061eab7ac8e14ef94b6ab65b4dbe">threadpool</a>
 </li>
+<li>threadpool_num_threads()
+: <a class="el" href="structthreadpool.html#a661aa5b8b4618fb81162bffed12c32e2">threadpool</a>
+</li>
+<li>threadpool_pause()
+: <a class="el" href="structthreadpool.html#ad543452480f6a34da6c6b48c590cefbb">threadpool</a>
+</li>
 <li>threadpool_pop_locked_()
-: <a class="el" href="structthreadpool.html#a94a050b192003989f19ef32884b43daf">threadpool</a>
+: <a class="el" href="structthreadpool.html#ad4cfc9a5ef8d5772af80d77c3ffc6a9f">threadpool</a>
 </li>
 <li>threadpool_push_barrier()
-: <a class="el" href="structthreadpool.html#a11a329f8e71524e0acabf59f0878e4d4">threadpool</a>
+: <a class="el" href="structthreadpool.html#a3706bfed65f90ba500962842d8ff19f0">threadpool</a>
 </li>
 <li>threadpool_push_n_()
-: <a class="el" href="structthreadpool.html#ac40651d471d0378802e40616349b236a">threadpool</a>
+: <a class="el" href="structthreadpool.html#a9a65e42bed1659b0c2ba07013d15128f">threadpool</a>
 </li>
 <li>threadpool_push_task()
-: <a class="el" href="structthreadpool.html#a3f4eabd0279544ba2aae42bba655f0ba">threadpool</a>
+: <a class="el" href="structthreadpool.html#aca9d56c8e486a30b9c1225b10ccf2161">threadpool</a>
+</li>
+<li>threadpool_run()
+: <a class="el" href="structthreadpool.html#a300a3d8a570d4e804f1036258ad7c35a">threadpool</a>
 </li>
 <li>threadpool_task_complete_()
 : <a class="el" href="structthreadpool.html#aa8dc7264c1c84764e865e81d744f56c5">threadpool</a>
@@ -166,7 +186,7 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="structthreadpool.html#ad47220a0f6ae4af1b8ebe73f2d4672a9">threadpool</a>
 </li>
 <li>threadpool_wait_for_work_()
-: <a class="el" href="structthreadpool.html#a0605a656190bd410d67f8855fdc5a7cc">threadpool</a>
+: <a class="el" href="structthreadpool.html#aa5d603063424204fb98db2dea1cf1e26">threadpool</a>
 </li>
 <li>threadpool_worker_func_()
 : <a class="el" href="structthreadpool.html#a38e99896e67bca2c812e025eb59f06c4">threadpool</a>

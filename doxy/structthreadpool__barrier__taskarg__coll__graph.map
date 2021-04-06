@@ -1,8 +1,0 @@
-<map id="threadpool_barrier_taskarg" name="threadpool_barrier_taskarg">
-<area shape="rect" id="node2" href="$structbarrier.html" title="Struct to represent an instance of a thread barrier. " alt="" coords="57,293,115,320"/>
-<area shape="rect" id="node3" href="$structthreadpool.html" title="Threadpool / worker pool. " alt="" coords="139,293,222,320"/>
-<area shape="rect" id="node4" href="$structtaskqueue.html" title="Task queue FIFO for assigning tasks to worker threads. " alt="" coords="94,203,177,229"/>
-<area shape="rect" id="node5" href="$structtaskqueue__entry.html" title="A single entry in the task queue FIFO. " alt="" coords="5,96,124,123"/>
-<area shape="rect" id="node6" href="$structtask.html" title="Generic task that can be scheduled for execution. " alt="" coords="41,5,88,32"/>
-<area shape="rect" id="node7" href="$structpool.html" title="Generic object pool that supports concurrent access. " alt="" coords="201,96,248,123"/>
-</map>

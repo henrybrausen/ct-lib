@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>N-Body Solver: N-Body Solver</title>
+<title>ct-lib: ct-lib</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,9 +28,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">N-Body Solver
+   <div id="projectname">ct-lib
    </div>
-   <div id="projectbrief">Fast N-Body Solver in C using POSIX APIs</div>
+   <div id="projectbrief">Threadpool library in C using POSIX APIs</div>
   </td>
  </tr>
  </tbody>
@@ -81,11 +81,11 @@ $(document).ready(function(){initNavTree('index.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">N-Body Solver </div>  </div>
+<div class="title">ct-lib </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h2>Introduction</h2>
-<p>This project implements a fast, parallel n-body solver in C, along with a number of useful threading / parallelization constructs.</p>
+<p>This project implements a number of useful threading and parallelization constructs in C.</p>
 <h2>Threading constructs</h2>
 <p>The major abstraction provided by the threading constructs in this library is the <a class="el" href="structthreadpool.html">threadpool</a>.</p>
 <p>The threadpool manages a collection of worker threads, which consume work from a task queue. The basic scheme is illustrated below:</p>
@@ -98,10 +98,10 @@ $(document).ready(function(){initNavTree('index.html','');});
 </div>
  </td></tr>
 </table>
-<p>In this diagram, the main application thread calls <a class="el" href="structthreadpool.html#a3f4eabd0279544ba2aae42bba655f0ba">threadpool_push_task()</a> to queue up a number of tasks for execution.</p>
+<p>In this diagram, the main application thread calls <a class="el" href="structthreadpool.html#aca9d56c8e486a30b9c1225b10ccf2161">threadpool_push_task()</a> to queue up a number of tasks for execution.</p>
 <p>The threadpool manages a number of worker threads. Each worker thread consumes tasks from the list of queued tasks. The tasks are then executed in parallel.</p>
-<p>The main application thread also pushes a synchronization barrier onto the queue by calling <a class="el" href="structthreadpool.html#a11a329f8e71524e0acabf59f0878e4d4">threadpool_push_barrier()</a>. A synchronization barrier requires that all threads reach the barrier before any given thread is allowed to continue consuming work from the queue.</p>
-<p>By default, the worker threads are asleep, and will not consume tasks from the queue. To begin task execution, the application code calls <a class="el" href="structthreadpool.html#a4440599f34e8be0a1f9c549cc0986c6d">threadpool_notify()</a> to wake up the worker threads and begin task execution.</p>
+<p>The main application thread also pushes a synchronization barrier onto the queue by calling <a class="el" href="structthreadpool.html#a3706bfed65f90ba500962842d8ff19f0">threadpool_push_barrier()</a>. A synchronization barrier requires that all threads reach the barrier before any given thread is allowed to continue consuming work from the queue.</p>
+<p>By default, the worker threads are asleep, and will not consume tasks from the queue. To begin task execution, the application code calls <a class="el" href="structthreadpool.html#a50143b62d83d638b4af08bb053c6c8ca">threadpool_notify()</a> to wake up the worker threads and begin task execution.</p>
 <p>Finally, the application code calls <a class="el" href="structthreadpool.html#ad47220a0f6ae4af1b8ebe73f2d4672a9">threadpool_wait()</a> to block until all tasks are completed.</p>
 <h2>Examples</h2>
 <ul>

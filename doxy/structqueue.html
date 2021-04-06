@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>N-Body Solver: queue Class Reference</title>
+<title>ct-lib: queue Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,9 +28,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">N-Body Solver
+   <div id="projectname">ct-lib
    </div>
-   <div id="projectbrief">Fast N-Body Solver in C using POSIX APIs</div>
+   <div id="projectbrief">Threadpool library in C using POSIX APIs</div>
   </td>
  </tr>
  </tbody>
@@ -103,18 +103,18 @@ Collaboration diagram for queue:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a081184c88eec107f4be43b31fd87560f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structqueue.html#a081184c88eec107f4be43b31fd87560f">queue_init</a> (struct <a class="el" href="structqueue.html">queue</a> *q)</td></tr>
-<tr class="memdesc:a081184c88eec107f4be43b31fd87560f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a queue.  <a href="#a081184c88eec107f4be43b31fd87560f">More...</a><br /></td></tr>
-<tr class="separator:a081184c88eec107f4be43b31fd87560f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a460608731da02da4399c15401a21780e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structqueue.html#a460608731da02da4399c15401a21780e">queue_destroy</a> (struct <a class="el" href="structqueue.html">queue</a> *q)</td></tr>
-<tr class="memdesc:a460608731da02da4399c15401a21780e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy queue referred to by q, leaving it uninitialized.  <a href="#a460608731da02da4399c15401a21780e">More...</a><br /></td></tr>
-<tr class="separator:a460608731da02da4399c15401a21780e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a663c9486702bcf8593004e80b0eb3faa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structqueue.html#a663c9486702bcf8593004e80b0eb3faa">queue_push</a> (struct <a class="el" href="structqueue.html">queue</a> *q, void *data)</td></tr>
-<tr class="memdesc:a663c9486702bcf8593004e80b0eb3faa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push a new element into the queue.  <a href="#a663c9486702bcf8593004e80b0eb3faa">More...</a><br /></td></tr>
-<tr class="separator:a663c9486702bcf8593004e80b0eb3faa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91ef898ae2655c401b43ce2c41f023dd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structqueue.html#a91ef898ae2655c401b43ce2c41f023dd">queue_pop</a> (struct <a class="el" href="structqueue.html">queue</a> *q, void **data)</td></tr>
-<tr class="memdesc:a91ef898ae2655c401b43ce2c41f023dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve and pop an element from the queue.  <a href="#a91ef898ae2655c401b43ce2c41f023dd">More...</a><br /></td></tr>
-<tr class="separator:a91ef898ae2655c401b43ce2c41f023dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee8e939232bffb7af9cb91ece5ff5fa3"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structqueue.html#aee8e939232bffb7af9cb91ece5ff5fa3">queue_init</a> (struct <a class="el" href="structqueue.html">queue</a> *q)</td></tr>
+<tr class="memdesc:aee8e939232bffb7af9cb91ece5ff5fa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a queue.  <a href="#aee8e939232bffb7af9cb91ece5ff5fa3">More...</a><br /></td></tr>
+<tr class="separator:aee8e939232bffb7af9cb91ece5ff5fa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2b784d1804ea94967a5f573a8b4d682"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structqueue.html#ab2b784d1804ea94967a5f573a8b4d682">queue_destroy</a> (struct <a class="el" href="structqueue.html">queue</a> *q)</td></tr>
+<tr class="memdesc:ab2b784d1804ea94967a5f573a8b4d682"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy queue referred to by q, leaving it uninitialized.  <a href="#ab2b784d1804ea94967a5f573a8b4d682">More...</a><br /></td></tr>
+<tr class="separator:ab2b784d1804ea94967a5f573a8b4d682"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1eb7c456355454a8a5b39d13e85612b4"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structqueue.html#a1eb7c456355454a8a5b39d13e85612b4">queue_push</a> (struct <a class="el" href="structqueue.html">queue</a> *q, void *data)</td></tr>
+<tr class="memdesc:a1eb7c456355454a8a5b39d13e85612b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push a new element into the queue.  <a href="#a1eb7c456355454a8a5b39d13e85612b4">More...</a><br /></td></tr>
+<tr class="separator:a1eb7c456355454a8a5b39d13e85612b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10518d96187920ae10e37f2fda7f1640"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structqueue.html#a10518d96187920ae10e37f2fda7f1640">queue_pop</a> (struct <a class="el" href="structqueue.html">queue</a> *q, void **data)</td></tr>
+<tr class="memdesc:a10518d96187920ae10e37f2fda7f1640"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve and pop an element from the queue.  <a href="#a10518d96187920ae10e37f2fda7f1640">More...</a><br /></td></tr>
+<tr class="separator:a10518d96187920ae10e37f2fda7f1640"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8594638ad09862643a956248d3028041"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structqueue.html#a8594638ad09862643a956248d3028041">queue_count</a> (struct <a class="el" href="structqueue.html">queue</a> *q)</td></tr>
 <tr class="memdesc:a8594638ad09862643a956248d3028041"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of elements in the queue.  <a href="#a8594638ad09862643a956248d3028041">More...</a><br /></td></tr>
 <tr class="separator:a8594638ad09862643a956248d3028041"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,14 +161,14 @@ struct <a class="el" href="structqueue__entry.html">queue_entry</a> *&#160;</td>
 
 </div>
 </div>
-<a id="a460608731da02da4399c15401a21780e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a460608731da02da4399c15401a21780e">&#9670;&nbsp;</a></span>queue_destroy()</h2>
+<a id="ab2b784d1804ea94967a5f573a8b4d682"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2b784d1804ea94967a5f573a8b4d682">&#9670;&nbsp;</a></span>queue_destroy()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int queue_destroy </td>
+          <td class="memname">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a> queue_destroy </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structqueue.html">queue</a> *&#160;</td>
           <td class="paramname"><em>q</em></td><td>)</td>
@@ -188,14 +188,14 @@ struct <a class="el" href="structqueue__entry.html">queue_entry</a> *&#160;</td>
 
 </div>
 </div>
-<a id="a081184c88eec107f4be43b31fd87560f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a081184c88eec107f4be43b31fd87560f">&#9670;&nbsp;</a></span>queue_init()</h2>
+<a id="aee8e939232bffb7af9cb91ece5ff5fa3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee8e939232bffb7af9cb91ece5ff5fa3">&#9670;&nbsp;</a></span>queue_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int queue_init </td>
+          <td class="memname">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a> queue_init </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structqueue.html">queue</a> *&#160;</td>
           <td class="paramname"><em>q</em></td><td>)</td>
@@ -215,14 +215,14 @@ struct <a class="el" href="structqueue__entry.html">queue_entry</a> *&#160;</td>
 
 </div>
 </div>
-<a id="a91ef898ae2655c401b43ce2c41f023dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91ef898ae2655c401b43ce2c41f023dd">&#9670;&nbsp;</a></span>queue_pop()</h2>
+<a id="a10518d96187920ae10e37f2fda7f1640"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10518d96187920ae10e37f2fda7f1640">&#9670;&nbsp;</a></span>queue_pop()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int queue_pop </td>
+          <td class="memname">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a> queue_pop </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structqueue.html">queue</a> *&#160;</td>
           <td class="paramname"><em>q</em>, </td>
@@ -253,14 +253,14 @@ struct <a class="el" href="structqueue__entry.html">queue_entry</a> *&#160;</td>
 
 </div>
 </div>
-<a id="a663c9486702bcf8593004e80b0eb3faa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a663c9486702bcf8593004e80b0eb3faa">&#9670;&nbsp;</a></span>queue_push()</h2>
+<a id="a1eb7c456355454a8a5b39d13e85612b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1eb7c456355454a8a5b39d13e85612b4">&#9670;&nbsp;</a></span>queue_push()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int queue_push </td>
+          <td class="memname">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a> queue_push </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structqueue.html">queue</a> *&#160;</td>
           <td class="paramname"><em>q</em>, </td>

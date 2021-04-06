@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>N-Body Solver: threadpool Class Reference</title>
+<title>ct-lib: threadpool Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,9 +28,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">N-Body Solver
+   <div id="projectname">ct-lib
    </div>
-   <div id="projectbrief">Fast N-Body Solver in C using POSIX APIs</div>
+   <div id="projectbrief">Threadpool library in C using POSIX APIs</div>
   </td>
  </tr>
  </tbody>
@@ -105,30 +105,36 @@ Collaboration diagram for threadpool:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab92c98b6137e6a3c9f0083ae692e0196"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#ab92c98b6137e6a3c9f0083ae692e0196">threadpool_init</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp, size_t num_threads)</td></tr>
-<tr class="memdesc:ab92c98b6137e6a3c9f0083ae692e0196"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize threadpool with num_threads threads.  <a href="#ab92c98b6137e6a3c9f0083ae692e0196">More...</a><br /></td></tr>
-<tr class="separator:ab92c98b6137e6a3c9f0083ae692e0196"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecd3104bddef3a9e26e14142e7226082"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#aecd3104bddef3a9e26e14142e7226082">threadpool_destroy</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
-<tr class="memdesc:aecd3104bddef3a9e26e14142e7226082"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy threadpool, freeing resources and leaving threadpool in an uninitialized state.  <a href="#aecd3104bddef3a9e26e14142e7226082">More...</a><br /></td></tr>
-<tr class="separator:aecd3104bddef3a9e26e14142e7226082"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5722f96fa33167571432f26aaf6fafcd"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a5722f96fa33167571432f26aaf6fafcd">threadpool_init</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp, size_t num_threads)</td></tr>
+<tr class="memdesc:a5722f96fa33167571432f26aaf6fafcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize threadpool with num_threads threads.  <a href="#a5722f96fa33167571432f26aaf6fafcd">More...</a><br /></td></tr>
+<tr class="separator:a5722f96fa33167571432f26aaf6fafcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4d8d8a7a4c74128929039cc3af50370"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#aa4d8d8a7a4c74128929039cc3af50370">threadpool_destroy</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
+<tr class="memdesc:aa4d8d8a7a4c74128929039cc3af50370"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy threadpool, freeing resources and leaving threadpool in an uninitialized state.  <a href="#aa4d8d8a7a4c74128929039cc3af50370">More...</a><br /></td></tr>
+<tr class="separator:aa4d8d8a7a4c74128929039cc3af50370"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a300a3d8a570d4e804f1036258ad7c35a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a300a3d8a570d4e804f1036258ad7c35a">threadpool_run</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
+<tr class="memdesc:a300a3d8a570d4e804f1036258ad7c35a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal thread pool to begin task execution.  <a href="#a300a3d8a570d4e804f1036258ad7c35a">More...</a><br /></td></tr>
+<tr class="separator:a300a3d8a570d4e804f1036258ad7c35a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad543452480f6a34da6c6b48c590cefbb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#ad543452480f6a34da6c6b48c590cefbb">threadpool_pause</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
+<tr class="memdesc:ad543452480f6a34da6c6b48c590cefbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal thread pool to pause task execution.  <a href="#ad543452480f6a34da6c6b48c590cefbb">More...</a><br /></td></tr>
+<tr class="separator:ad543452480f6a34da6c6b48c590cefbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad47220a0f6ae4af1b8ebe73f2d4672a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#ad47220a0f6ae4af1b8ebe73f2d4672a9">threadpool_wait</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
 <tr class="memdesc:ad47220a0f6ae4af1b8ebe73f2d4672a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Block until worker threads complete all queued tasks.  <a href="#ad47220a0f6ae4af1b8ebe73f2d4672a9">More...</a><br /></td></tr>
 <tr class="separator:ad47220a0f6ae4af1b8ebe73f2d4672a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f4eabd0279544ba2aae42bba655f0ba"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a3f4eabd0279544ba2aae42bba655f0ba">threadpool_push_task</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp, struct <a class="el" href="structtask.html">task</a> t)</td></tr>
-<tr class="memdesc:a3f4eabd0279544ba2aae42bba655f0ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue up task for execution.  <a href="#a3f4eabd0279544ba2aae42bba655f0ba">More...</a><br /></td></tr>
-<tr class="separator:a3f4eabd0279544ba2aae42bba655f0ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92faa073edf144e866cd9baae488f288"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a92faa073edf144e866cd9baae488f288">threadpool_get_num_threads</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
-<tr class="memdesc:a92faa073edf144e866cd9baae488f288"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of threads currently in the threadpool.  <a href="#a92faa073edf144e866cd9baae488f288">More...</a><br /></td></tr>
-<tr class="separator:a92faa073edf144e866cd9baae488f288"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4440599f34e8be0a1f9c549cc0986c6d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a4440599f34e8be0a1f9c549cc0986c6d">threadpool_notify</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
-<tr class="memdesc:a4440599f34e8be0a1f9c549cc0986c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notify any blocked processes that the threadpool state has changed.  <a href="#a4440599f34e8be0a1f9c549cc0986c6d">More...</a><br /></td></tr>
-<tr class="separator:a4440599f34e8be0a1f9c549cc0986c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca9d56c8e486a30b9c1225b10ccf2161"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#aca9d56c8e486a30b9c1225b10ccf2161">threadpool_push_task</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp, struct <a class="el" href="structtask.html">task</a> t)</td></tr>
+<tr class="memdesc:aca9d56c8e486a30b9c1225b10ccf2161"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue up task for execution.  <a href="#aca9d56c8e486a30b9c1225b10ccf2161">More...</a><br /></td></tr>
+<tr class="separator:aca9d56c8e486a30b9c1225b10ccf2161"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a661aa5b8b4618fb81162bffed12c32e2"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a661aa5b8b4618fb81162bffed12c32e2">threadpool_num_threads</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
+<tr class="memdesc:a661aa5b8b4618fb81162bffed12c32e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of threads currently in the threadpool.  <a href="#a661aa5b8b4618fb81162bffed12c32e2">More...</a><br /></td></tr>
+<tr class="separator:a661aa5b8b4618fb81162bffed12c32e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50143b62d83d638b4af08bb053c6c8ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a50143b62d83d638b4af08bb053c6c8ca">threadpool_notify</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
+<tr class="memdesc:a50143b62d83d638b4af08bb053c6c8ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notify any blocked processes that the threadpool state has changed.  <a href="#a50143b62d83d638b4af08bb053c6c8ca">More...</a><br /></td></tr>
+<tr class="separator:a50143b62d83d638b4af08bb053c6c8ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09ce061eab7ac8e14ef94b6ab65b4dbe"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a09ce061eab7ac8e14ef94b6ab65b4dbe">threadpool_num_pending</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
 <tr class="memdesc:a09ce061eab7ac8e14ef94b6ab65b4dbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of pending tasks.  <a href="#a09ce061eab7ac8e14ef94b6ab65b4dbe">More...</a><br /></td></tr>
 <tr class="separator:a09ce061eab7ac8e14ef94b6ab65b4dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11a329f8e71524e0acabf59f0878e4d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a11a329f8e71524e0acabf59f0878e4d4">threadpool_push_barrier</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
-<tr class="memdesc:a11a329f8e71524e0acabf59f0878e4d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push barrier / synchronization point to queue.  <a href="#a11a329f8e71524e0acabf59f0878e4d4">More...</a><br /></td></tr>
-<tr class="separator:a11a329f8e71524e0acabf59f0878e4d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3706bfed65f90ba500962842d8ff19f0"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a3706bfed65f90ba500962842d8ff19f0">threadpool_push_barrier</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
+<tr class="memdesc:a3706bfed65f90ba500962842d8ff19f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push barrier / synchronization point to queue.  <a href="#a3706bfed65f90ba500962842d8ff19f0">More...</a><br /></td></tr>
+<tr class="separator:a3706bfed65f90ba500962842d8ff19f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
@@ -150,18 +156,21 @@ pthread_mutex_t&#160;</td><td class="memItemRight" valign="bottom"><b>lock</b></
 <tr class="memitem:a6da15e0bfa7f0ab1da03ad167bcae8d0"><td class="memItemLeft" align="right" valign="top"><a id="a6da15e0bfa7f0ab1da03ad167bcae8d0"></a>
 pthread_cond_t&#160;</td><td class="memItemRight" valign="bottom"><b>notify</b></td></tr>
 <tr class="separator:a6da15e0bfa7f0ab1da03ad167bcae8d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc9a41cd26256b5faeaaa4ab118b2002"><td class="memItemLeft" align="right" valign="top"><a id="adc9a41cd26256b5faeaaa4ab118b2002"></a>
+enum threadpool_state&#160;</td><td class="memItemRight" valign="bottom"><b>state</b></td></tr>
+<tr class="separator:adc9a41cd26256b5faeaaa4ab118b2002"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:ac40651d471d0378802e40616349b236a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#ac40651d471d0378802e40616349b236a">threadpool_push_n_</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp, struct <a class="el" href="structtask.html">task</a> t, size_t n)</td></tr>
-<tr class="memdesc:ac40651d471d0378802e40616349b236a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue up N identical tasks for execution.  <a href="#ac40651d471d0378802e40616349b236a">More...</a><br /></td></tr>
-<tr class="separator:ac40651d471d0378802e40616349b236a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94a050b192003989f19ef32884b43daf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a94a050b192003989f19ef32884b43daf">threadpool_pop_locked_</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp, struct <a class="el" href="structtask.html">task</a> *t)</td></tr>
-<tr class="memdesc:a94a050b192003989f19ef32884b43daf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop a task from the thread pool's task queue. Assumes thread pool has been locked by the caller.  <a href="#a94a050b192003989f19ef32884b43daf">More...</a><br /></td></tr>
-<tr class="separator:a94a050b192003989f19ef32884b43daf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0605a656190bd410d67f8855fdc5a7cc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a0605a656190bd410d67f8855fdc5a7cc">threadpool_wait_for_work_</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp, struct <a class="el" href="structtask.html">task</a> *t)</td></tr>
-<tr class="memdesc:a0605a656190bd410d67f8855fdc5a7cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Block and wait for work to appear on the queue.  <a href="#a0605a656190bd410d67f8855fdc5a7cc">More...</a><br /></td></tr>
-<tr class="separator:a0605a656190bd410d67f8855fdc5a7cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a65e42bed1659b0c2ba07013d15128f"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#a9a65e42bed1659b0c2ba07013d15128f">threadpool_push_n_</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp, struct <a class="el" href="structtask.html">task</a> t, size_t n)</td></tr>
+<tr class="memdesc:a9a65e42bed1659b0c2ba07013d15128f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue up N identical tasks for execution.  <a href="#a9a65e42bed1659b0c2ba07013d15128f">More...</a><br /></td></tr>
+<tr class="separator:a9a65e42bed1659b0c2ba07013d15128f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4cfc9a5ef8d5772af80d77c3ffc6a9f"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#ad4cfc9a5ef8d5772af80d77c3ffc6a9f">threadpool_pop_locked_</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp, struct <a class="el" href="structtask.html">task</a> *t)</td></tr>
+<tr class="memdesc:ad4cfc9a5ef8d5772af80d77c3ffc6a9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop a task from the thread pool's task queue. Assumes thread pool has been locked by the caller.  <a href="#ad4cfc9a5ef8d5772af80d77c3ffc6a9f">More...</a><br /></td></tr>
+<tr class="separator:ad4cfc9a5ef8d5772af80d77c3ffc6a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5d603063424204fb98db2dea1cf1e26"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#aa5d603063424204fb98db2dea1cf1e26">threadpool_wait_for_work_</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp, struct <a class="el" href="structtask.html">task</a> *t)</td></tr>
+<tr class="memdesc:aa5d603063424204fb98db2dea1cf1e26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Block and wait for work to appear on the queue.  <a href="#aa5d603063424204fb98db2dea1cf1e26">More...</a><br /></td></tr>
+<tr class="separator:aa5d603063424204fb98db2dea1cf1e26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8dc7264c1c84764e865e81d744f56c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthreadpool.html#aa8dc7264c1c84764e865e81d744f56c5">threadpool_task_complete_</a> (struct <a class="el" href="structthreadpool.html">threadpool</a> *tp)</td></tr>
 <tr class="memdesc:aa8dc7264c1c84764e865e81d744f56c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal that a running task has completed.  <a href="#aa8dc7264c1c84764e865e81d744f56c5">More...</a><br /></td></tr>
 <tr class="separator:aa8dc7264c1c84764e865e81d744f56c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -212,14 +221,14 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aecd3104bddef3a9e26e14142e7226082"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aecd3104bddef3a9e26e14142e7226082">&#9670;&nbsp;</a></span>threadpool_destroy()</h2>
+<a id="aa4d8d8a7a4c74128929039cc3af50370"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4d8d8a7a4c74128929039cc3af50370">&#9670;&nbsp;</a></span>threadpool_destroy()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int threadpool_destroy </td>
+          <td class="memname">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a> threadpool_destroy </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structthreadpool.html">threadpool</a> *&#160;</td>
           <td class="paramname"><em>tp</em></td><td>)</td>
@@ -240,40 +249,14 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a92faa073edf144e866cd9baae488f288"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92faa073edf144e866cd9baae488f288">&#9670;&nbsp;</a></span>threadpool_get_num_threads()</h2>
+<a id="a5722f96fa33167571432f26aaf6fafcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5722f96fa33167571432f26aaf6fafcd">&#9670;&nbsp;</a></span>threadpool_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t threadpool_get_num_threads </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structthreadpool.html">threadpool</a> *&#160;</td>
-          <td class="paramname"><em>tp</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get number of threads currently in the threadpool. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">tp</td><td>The thread pool. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ab92c98b6137e6a3c9f0083ae692e0196"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab92c98b6137e6a3c9f0083ae692e0196">&#9670;&nbsp;</a></span>threadpool_init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int threadpool_init </td>
+          <td class="memname">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a> threadpool_init </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structthreadpool.html">threadpool</a> *&#160;</td>
           <td class="paramname"><em>tp</em>, </td>
@@ -304,14 +287,14 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a4440599f34e8be0a1f9c549cc0986c6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4440599f34e8be0a1f9c549cc0986c6d">&#9670;&nbsp;</a></span>threadpool_notify()</h2>
+<a id="a50143b62d83d638b4af08bb053c6c8ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50143b62d83d638b4af08bb053c6c8ca">&#9670;&nbsp;</a></span>threadpool_notify()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int threadpool_notify </td>
+          <td class="memname">void threadpool_notify </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structthreadpool.html">threadpool</a> *&#160;</td>
           <td class="paramname"><em>tp</em></td><td>)</td>
@@ -321,7 +304,7 @@ Private Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Notify any blocked processes that the threadpool state has changed. </p>
-<p>Calling <a class="el" href="structthreadpool.html#a4440599f34e8be0a1f9c549cc0986c6d" title="Notify any blocked processes that the threadpool state has changed. ">threadpool_notify()</a> wakes up any processes that are blocked in calls to <a class="el" href="structthreadpool.html#a0605a656190bd410d67f8855fdc5a7cc" title="Block and wait for work to appear on the queue. ">threadpool_wait_for_work_()</a> or threadpool_wait_for_complete_(). These processes then re-evaluate the queue state, going back to sleep, or returning depending on the outcome.</p>
+<p>Calling <a class="el" href="structthreadpool.html#a50143b62d83d638b4af08bb053c6c8ca" title="Notify any blocked processes that the threadpool state has changed. ">threadpool_notify()</a> wakes up any processes that are blocked in calls to <a class="el" href="structthreadpool.html#aa5d603063424204fb98db2dea1cf1e26" title="Block and wait for work to appear on the queue. ">threadpool_wait_for_work_()</a> or threadpool_wait_for_complete_(). These processes then re-evaluate the queue state, going back to sleep, or returning depending on the outcome.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">tp</td><td>The thread pool. </td></tr>
@@ -358,8 +341,60 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a94a050b192003989f19ef32884b43daf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94a050b192003989f19ef32884b43daf">&#9670;&nbsp;</a></span>threadpool_pop_locked_()</h2>
+<a id="a661aa5b8b4618fb81162bffed12c32e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a661aa5b8b4618fb81162bffed12c32e2">&#9670;&nbsp;</a></span>threadpool_num_threads()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t threadpool_num_threads </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structthreadpool.html">threadpool</a> *&#160;</td>
+          <td class="paramname"><em>tp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get number of threads currently in the threadpool. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tp</td><td>The thread pool. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad543452480f6a34da6c6b48c590cefbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad543452480f6a34da6c6b48c590cefbb">&#9670;&nbsp;</a></span>threadpool_pause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void threadpool_pause </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structthreadpool.html">threadpool</a> *&#160;</td>
+          <td class="paramname"><em>tp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Signal thread pool to pause task execution. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tp</td><td>The thread pool. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad4cfc9a5ef8d5772af80d77c3ffc6a9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4cfc9a5ef8d5772af80d77c3ffc6a9f">&#9670;&nbsp;</a></span>threadpool_pop_locked_()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -368,7 +403,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int threadpool_pop_locked_ </td>
+          <td class="memname">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a> threadpool_pop_locked_ </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structthreadpool.html">threadpool</a> *&#160;</td>
           <td class="paramname"><em>tp</em>, </td>
@@ -396,7 +431,7 @@ Private Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">tp</td><td>The thread pool. </td></tr>
-    <tr><td class="paramname">t</td><td>Pointer to storage for popped task. </td></tr>
+    <tr><td class="paramname">t</td><td>Pointer to storage for popped task. If t == NULL, discard popped task. </td></tr>
   </table>
   </dd>
 </dl>
@@ -404,14 +439,14 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a11a329f8e71524e0acabf59f0878e4d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11a329f8e71524e0acabf59f0878e4d4">&#9670;&nbsp;</a></span>threadpool_push_barrier()</h2>
+<a id="a3706bfed65f90ba500962842d8ff19f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3706bfed65f90ba500962842d8ff19f0">&#9670;&nbsp;</a></span>threadpool_push_barrier()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int threadpool_push_barrier </td>
+          <td class="memname">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a> threadpool_push_barrier </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structthreadpool.html">threadpool</a> *&#160;</td>
           <td class="paramname"><em>tp</em></td><td>)</td>
@@ -432,8 +467,8 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac40651d471d0378802e40616349b236a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac40651d471d0378802e40616349b236a">&#9670;&nbsp;</a></span>threadpool_push_n_()</h2>
+<a id="a9a65e42bed1659b0c2ba07013d15128f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a65e42bed1659b0c2ba07013d15128f">&#9670;&nbsp;</a></span>threadpool_push_n_()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -442,7 +477,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int threadpool_push_n_ </td>
+          <td class="memname">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a> threadpool_push_n_ </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structthreadpool.html">threadpool</a> *&#160;</td>
           <td class="paramname"><em>tp</em>, </td>
@@ -485,14 +520,14 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3f4eabd0279544ba2aae42bba655f0ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f4eabd0279544ba2aae42bba655f0ba">&#9670;&nbsp;</a></span>threadpool_push_task()</h2>
+<a id="aca9d56c8e486a30b9c1225b10ccf2161"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca9d56c8e486a30b9c1225b10ccf2161">&#9670;&nbsp;</a></span>threadpool_push_task()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int threadpool_push_task </td>
+          <td class="memname">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a> threadpool_push_task </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structthreadpool.html">threadpool</a> *&#160;</td>
           <td class="paramname"><em>tp</em>, </td>
@@ -520,6 +555,32 @@ Private Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
+
+</div>
+</div>
+<a id="a300a3d8a570d4e804f1036258ad7c35a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a300a3d8a570d4e804f1036258ad7c35a">&#9670;&nbsp;</a></span>threadpool_run()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void threadpool_run </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structthreadpool.html">threadpool</a> *&#160;</td>
+          <td class="paramname"><em>tp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Signal thread pool to begin task execution. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tp</td><td>The thread pool. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -574,6 +635,7 @@ Private Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Block until worker threads complete all queued tasks. </p>
+<p>Note: This function blocks until all tasks are completed. If the threadpool is paused, <a class="el" href="structthreadpool.html#ad47220a0f6ae4af1b8ebe73f2d4672a9" title="Block until worker threads complete all queued tasks. ">threadpool_wait()</a> will continue to block!</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">tp</td><td>The thread pool. </td></tr>
@@ -583,8 +645,8 @@ Private Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0605a656190bd410d67f8855fdc5a7cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0605a656190bd410d67f8855fdc5a7cc">&#9670;&nbsp;</a></span>threadpool_wait_for_work_()</h2>
+<a id="aa5d603063424204fb98db2dea1cf1e26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5d603063424204fb98db2dea1cf1e26">&#9670;&nbsp;</a></span>threadpool_wait_for_work_()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -593,7 +655,7 @@ Private Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int threadpool_wait_for_work_ </td>
+          <td class="memname">enum <a class="el" href="error_8h.html#ad1f83cb866bcaa98f0dd6d801857f28e">ct_err</a> threadpool_wait_for_work_ </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structthreadpool.html">threadpool</a> *&#160;</td>
           <td class="paramname"><em>tp</em>, </td>
@@ -655,7 +717,7 @@ Private Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Worker thread function for use with thread pool. </p>
-<p>This function loops forever, consuming and executing tasks on the queue. When no work is available, this function will block on <a class="el" href="structthreadpool.html#a0605a656190bd410d67f8855fdc5a7cc" title="Block and wait for work to appear on the queue. ">threadpool_wait_for_work_()</a>. Call <a class="el" href="structthreadpool.html#a4440599f34e8be0a1f9c549cc0986c6d" title="Notify any blocked processes that the threadpool state has changed. ">threadpool_notify()</a> to wake up all blocked threads and resume task execution.</p>
+<p>This function loops forever, consuming and executing tasks on the queue. When no work is available, this function will block on <a class="el" href="structthreadpool.html#aa5d603063424204fb98db2dea1cf1e26" title="Block and wait for work to appear on the queue. ">threadpool_wait_for_work_()</a>. Call <a class="el" href="structthreadpool.html#a50143b62d83d638b4af08bb053c6c8ca" title="Notify any blocked processes that the threadpool state has changed. ">threadpool_notify()</a> to wake up all blocked threads and resume task execution.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">tp</td><td>Thread pool to which worker thread belongs (casted to void *) </td></tr>
